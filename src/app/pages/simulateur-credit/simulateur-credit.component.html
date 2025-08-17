@@ -1,0 +1,54 @@
+<div class="container-fluid">
+  <mat-card class="cardWithShadow theme-card">
+    <mat-card-header>
+      <mat-card-title class="">Simulateur de crédit</mat-card-title>
+      <mat-card-subtitle
+        >Calculez votre mensualité en 2 clics</mat-card-subtitle
+      >
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="simulate()" class="row g-3">
+        <!-- Montant -->
+        <div class="col-12 col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Montant du prêt (DT)</mat-label>
+            <input matInput type="number" formControlName="montant" />
+            <mat-error>Montant minimum 1000 DT</mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Durée -->
+        <div class="col-12 col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Durée (mois)</mat-label>
+            <input matInput type="number" formControlName="duree" />
+            <mat-error>Au moins 1 mois</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="form.invalid"
+          >
+            Simuler
+          </button>
+        </div>
+      </form>
+
+      <div class="mt-4" *ngIf="resultat !== null">
+        <mat-card appearance="outlined" class="accent-card">
+          <mat-card-content>
+            <h4 class="mb-0">Mensualité estimée</h4>
+            <p class="display-6 text-primary mb-0">
+              {{ resultat | number : "1.2-2" }} DT
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
