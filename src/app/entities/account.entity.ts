@@ -2,10 +2,12 @@
 
 export interface Account {
   id: number;
+  firstname:string,
+  lastname:string,
   email: string;
-  fullName: string;
+  password:string,
+  phone:string,
+  clientNumber:number,
   role: string;
-  entrepriseName?: string;
-  enabled: boolean;
-  defaultLang: string;
+  enabled: boolean
 }

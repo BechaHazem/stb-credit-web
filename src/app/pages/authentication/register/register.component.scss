@@ -1,0 +1,17 @@
+/* Compact form fields */
+.small-field.mat-form-field {
+  font-size: 0.875rem;  // smaller text
+
+  .mat-form-field-infix {
+    padding: 0.25rem 0;   // reduce top/bottom padding
+  }
+
+  .mat-input-element {
+    padding: 0.25rem 0;   // make input text area smaller
+  }
+
+  .mat-form-field-flex {
+    min-height: 36px;     // set smaller overall height (default ~56px)
+    align-items: center;  // vertically center text
+  }
+}

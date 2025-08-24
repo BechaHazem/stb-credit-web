@@ -27,6 +27,7 @@ import { LoaderInterceptor } from './services/interceptor/loader/Loader.intercep
 import { AuthExpiredInterceptor } from './services/interceptor/auth-expired.interceptor';
 import { AuthInterceptor } from './services/interceptor/auth.interceptor';
 import { SimulateurCreditComponent } from './pages/simulateur-credit/simulateur-credit.component';
+import { BanquierDetailsComponent } from './pages/banquier-details/banquier-details.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { SimulateurCreditComponent } from './pages/simulateur-credit/simulateur-
     BrandingComponent,
     AppNavItemComponent,
     SimulateurCreditComponent,
+    BanquierDetailsComponent
   ],
   imports: [
     BrowserModule,

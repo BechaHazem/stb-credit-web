@@ -23,6 +23,10 @@ export class AccountService {
   save(account: Account): Observable<{}> {
     return this.http.post(environment.apiUrl + '/account', account);
   }
+  register(account: Account): Observable<any> {
+  return this.http.post(environment.apiUrl + '/api/auth/register', account);
+}
+
 
   authenticate(identity: Account | null): void {
     this.userIdentity.set(identity);
@@ -82,7 +86,7 @@ export class AccountService {
   }
 
   private fetch(): Observable<Account> {
-    return this.http.get<Account>(environment.apiUrl + '/account');
+    return this.http.get<Account>(environment.apiUrl + '/api/auth/profile',{ withCredentials: true });
   }
 
   private navigateToStoredUrl(): void {
@@ -105,10 +109,10 @@ export class AccountService {
       case 'ADMIN':
         this.router.navigate(['/']);
         break;
-      case 'BANKER':
+      case 'BANQUIER':
         this.router.navigate(['/']);
         break;
-      case 'CUSTOMER':
+      case 'CLIENT':
         this.router.navigate(['/']);
         break;
       default:
