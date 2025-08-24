@@ -3,11 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
 import { SimulateurCreditComponent } from './pages/simulateur-credit/simulateur-credit.component';
+import { authGuard } from './guards/auth.guard';
+import { BanquierDetailsComponent } from './pages/banquier-details/banquier-details.component';
 
 const routes: Routes = [
   {
     path: '',
     component: FullComponent,
+        canActivateChild: [authGuard],
     children: [
       {
         path: '',
@@ -35,6 +38,11 @@ const routes: Routes = [
         path: 'simulateur-credit',
         component: SimulateurCreditComponent,
       },
+      {
+        path: 'Banquier-details',
+        component: BanquierDetailsComponent,
+      },
+
     ],
   },
   {

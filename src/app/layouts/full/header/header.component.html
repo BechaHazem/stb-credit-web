@@ -62,15 +62,11 @@
         ></i-tabler></mat-icon
       >My Task
     </button>
-
-    <div class="p-x-12 m-t-12">
-      <a
-        [routerLink]="['/authentication/login']"
-        mat-stroked-button
-        color="primary"
-        class="w-100"
-        >Logout</a
-      >
-    </div>
+<div class="p-x-12 m-t-12">
+  <button mat-stroked-button color="primary" class="w-100"
+          (click)="logout()">
+    Logout
+  </button>
+</div>
   </mat-menu>
 </mat-toolbar>

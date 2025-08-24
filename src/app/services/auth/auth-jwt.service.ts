@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError, finalize, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { StateStorageService } from '../state-storage/state-storage.service';
 import { environment } from 'src/environment';
@@ -17,7 +17,7 @@ export class AuthServerProvider {
   private stateStorageService = inject(StateStorageService);
   private router = inject(Router);
 
-  private API_URL = environment.apiUrl + '/auth';
+  private API_URL = environment.apiUrl + '/api/auth';
 
   getToken(): string {
     return this.stateStorageService.getAuthenticationToken() ?? '';
@@ -25,23 +25,33 @@ export class AuthServerProvider {
 
   login(credentials: LoginRequest): Observable<void> {
     return this.http
-      .post<JwtToken>(`${this.API_URL}/login`, credentials)
+      .post<JwtToken>(`${this.API_URL}/authenticate`, credentials,{ withCredentials: true })
       .pipe(map(response => this.authenticateSuccess(response, credentials.rememberMe)));
   }
 
-  logout(): Observable<void> {
-    return new Observable(observer => {
-      this.stateStorageService.clearAuthenticationToken();
-      observer.next();
-      observer.complete();
-      this.router.navigate(['']);
-    });
-  }
+// auth-server.provider.ts
+logout(): Observable<void> {
+  // 1️⃣  call Spring to revoke token / clear server-side sessions
+  return this.http.post<void>(`${this.API_URL}/logout`, {}, { withCredentials: true })
+    .pipe(
+      // 2️⃣  whatever the server answers, wipe client tokens
+      finalize(() => {
+        this.stateStorageService.clearAuthenticationToken();
+        this.router.navigate(['/authentication/login']);
+      }),
+      // 3️⃣  if server is down, still logout on client
+      catchError(() => {
+        this.stateStorageService.clearAuthenticationToken();
+        this.router.navigate(['/authentication/login']);
+        return EMPTY;
+      })
+    );
+}
 
 
 
-
-  private authenticateSuccess(response: JwtToken, rememberMe: boolean): void {
-    this.stateStorageService.storeAuthenticationToken(response.token, rememberMe);
-  }
+private authenticateSuccess(response: JwtToken, rememberMe: boolean): void {
+  console.log('Token received', response.token); // check if defined
+  this.stateStorageService.storeAuthenticationToken(response.token, rememberMe);
+}
 }

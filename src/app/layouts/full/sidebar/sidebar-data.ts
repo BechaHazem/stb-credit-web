@@ -17,6 +17,12 @@ export const navItems: NavItem[] = [
     iconName: 'rosette',
     route: '/simulateur-credit',
   },
+    {
+    displayName: 'Gérer les banquiers',
+    iconName: 'building-bank',
+    route: '/Banquier-details',
+  },
+
   {
     displayName: 'Chips',
     iconName: 'poker-chip',
