@@ -28,6 +28,10 @@ import { AuthExpiredInterceptor } from './services/interceptor/auth-expired.inte
 import { AuthInterceptor } from './services/interceptor/auth.interceptor';
 import { SimulateurCreditComponent } from './pages/simulateur-credit/simulateur-credit.component';
 import { BanquierDetailsComponent } from './pages/banquier-details/banquier-details.component';
+import { RequestListComponent } from './pages/request-list/request-list.component';
+import { LoansRequestComponent } from './pages/loans-request/loans-request.component';
+import { SimulationsHistoryComponent } from './pages/simulations-history/simulations-history.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,10 @@ import { BanquierDetailsComponent } from './pages/banquier-details/banquier-deta
     BrandingComponent,
     AppNavItemComponent,
     SimulateurCreditComponent,
-    BanquierDetailsComponent
+    BanquierDetailsComponent,
+    SimulationsHistoryComponent,
+    LoansRequestComponent,
+    RequestListComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +56,7 @@ import { BanquierDetailsComponent } from './pages/banquier-details/banquier-deta
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    MatSnackBarModule,
     TablerIconsModule.pick(TablerIcons),
   ],
   exports: [TablerIconsModule],

@@ -25,29 +25,132 @@
             <input matInput type="number" formControlName="duree" />
             <mat-error>Au moins 1 mois</mat-error>
           </mat-form-field>
+          <div *ngIf="form.controls['duree'].hasError('max')">
+            La durée maximale du prêt est de 120 mois.
+          </div>
         </div>
 
+        <!-- Grace Period -->
+        <div class="col-12 col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Période de différé (mois)</mat-label>
+            <input matInput type="number" formControlName="gracePeriod" />
+            <mat-error>Doit être ≥ 0</mat-error>
+          </mat-form-field>
+        </div>
+        <div *ngIf="form.controls['gracePeriod'].hasError('max')">
+          La période de grâce ne peut pas dépasser 3 mois.
+        </div>
         <div class="col-12">
           <button
             mat-raised-button
             color="primary"
             type="submit"
-            [disabled]="form.invalid"
+            [disabled]="form.invalid || loading"
           >
-            Simuler
+            {{ loading ? "Simulation..." : "Simuler" }}
           </button>
         </div>
       </form>
+      <div class="mt-4" *ngIf="error">
+        <mat-card color="warn" class="accent-card">
+          <mat-card-content>{{ error }}</mat-card-content>
+        </mat-card>
+      </div>
 
-      <div class="mt-4" *ngIf="resultat !== null">
-        <mat-card appearance="outlined" class="accent-card">
+      <div class="mt-4" *ngIf="resultat">
+        <mat-card class="accent-card">
           <mat-card-content>
-            <h4 class="mb-0">Mensualité estimée</h4>
-            <p class="display-6 text-primary mb-0">
-              {{ resultat | number : "1.2-2" }} DT
+            <h4>Résultat de la simulation</h4>
+            <p>
+              <strong>Mensualité estimée:</strong>
+              {{ resultat.monthlyPayment | number : "1.2-2" }} DT
             </p>
+            <p>
+              <strong>Coût total:</strong>
+              {{ resultat.totalCost | number : "1.2-2" }} DT
+            </p>
+            <p>
+              <strong>Intérêt total:</strong>
+              {{ resultat.totalInterest | number : "1.2-2" }} DT
+            </p>
+            <p>
+              <strong>Taux annuel (APR):</strong>
+              {{ resultat.apr | number : "1.2-2" }}%
+            </p>
+
+            <h5 class="mt-3">Échéancier</h5>
+            <table
+              mat-table
+              [dataSource]="dataSource"
+              class="mat-elevation-z2 w-100"
+            >
+              <!-- Columns as before -->
+              <ng-container matColumnDef="period">
+                <th mat-header-cell *matHeaderCellDef>Période</th>
+                <td mat-cell *matCellDef="let line">{{ line.period }}</td>
+              </ng-container>
+              <ng-container matColumnDef="openingBalance">
+                <th mat-header-cell *matHeaderCellDef>Solde Ouverture</th>
+                <td mat-cell *matCellDef="let line">
+                  {{ line.openingBalance | number : "1.2-2" }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="payment">
+                <th mat-header-cell *matHeaderCellDef>Payment</th>
+                <td mat-cell *matCellDef="let line">
+                  {{ line.payment | number : "1.2-2" }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="interest">
+                <th mat-header-cell *matHeaderCellDef>Intérêt</th>
+                <td mat-cell *matCellDef="let line">
+                  {{ line.interest | number : "1.2-2" }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="principal">
+                <th mat-header-cell *matHeaderCellDef>Principal</th>
+                <td mat-cell *matCellDef="let line">
+                  {{ line.principal | number : "1.2-2" }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="closingBalance">
+                <th mat-header-cell *matHeaderCellDef>Solde Clôture</th>
+                <td mat-cell *matCellDef="let line">
+                  {{ line.closingBalance | number : "1.2-2" }}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+
+            <mat-paginator
+              [pageSizeOptions]="[5, 10, 20]"
+              showFirstLastButtons
+              [pageSize]="5"
+            ></mat-paginator>
           </mat-card-content>
         </mat-card>
+      </div>
+      <!-- right after the table/paginator block -->
+      <div class="mt-3" *ngIf="resultat" style="display: flex;justify-content: flex-end;" >
+        <button class="mx-2"
+          mat-raised-button
+          color="accent"
+          [disabled]="saving"
+          (click)="saveSimulation(null)"
+        >
+          {{ saving ? "Enregistrement..." : "Enregistrer" }}
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          class="ml-2"
+          (click)="saveSimulation('loan_request')"
+        >
+          Demander un crédit
+        </button>
       </div>
     </mat-card-content>
   </mat-card>

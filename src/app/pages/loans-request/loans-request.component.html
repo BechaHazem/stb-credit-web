@@ -1,0 +1,172 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Demande de Crédit</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="loanForm" (ngSubmit)="submit()" class="grid gap-4">
+
+      <!-- Type de Crédit -->
+<!-- Type de Crédit -->
+<section>
+  <h5>Type de Crédit</h5>
+  <mat-form-field appearance="outline" class="w-full mt-2">
+    <mat-label>Type de Crédit</mat-label>
+    <mat-select formControlName="creditType">
+      <mat-option *ngFor="let type of creditTypes" [value]="type">
+        {{ type }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</section>
+
+
+      <!-- Infos compte -->
+      <section>
+        <h5>Titulaire du compte</h5>
+        <mat-form-field appearance="outline" class="w-full" class="col-12">
+          <mat-label>N° Compte</mat-label>
+          <input matInput formControlName="accountNumber" maxlength="14" />
+        </mat-form-field>
+
+        <div class="grid grid-cols-2 gap-4">
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Nom et Prénoms</mat-label>
+            <input matInput formControlName="fullName" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+          </mat-form-field>
+        </div>
+      </section>
+
+      <!-- Identité -->
+      <section>
+        <h5>Identité</h5>
+        <div class="grid grid-cols-3 gap-4">
+<mat-form-field appearance="outline" class="col-4">
+  <mat-label>Type pièce</mat-label>
+  <mat-select formControlName="idType">
+    <mat-option value="CIN">Carte d’identité</mat-option>
+    <mat-option value="PASS">Passeport</mat-option>
+    <mat-option value="PERMIS">Permis de conduire</mat-option>
+  </mat-select>
+</mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Numéro</mat-label>
+            <input matInput formControlName="idNumber" type="number"/>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Délivrée le</mat-label>
+            <input matInput type="date" formControlName="idIssueDate" />
+          </mat-form-field>
+        </div>
+      </section>
+
+      <!-- Profession -->
+      <section>
+        <h5>Profession</h5>
+        <div class="grid grid-cols-2 gap-4">
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Matricule Fiscal</mat-label>
+            <input matInput formControlName="fiscalNumber" type="number"/>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Employeur</mat-label>
+            <input matInput formControlName="employer" />
+          </mat-form-field>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Profession</mat-label>
+            <input matInput formControlName="profession" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Adresse</mat-label>
+            <input matInput formControlName="address" />
+          </mat-form-field>
+        </div>
+        <div class="grid grid-cols-3 gap-4">
+          <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Ville</mat-label>
+            <input matInput formControlName="city" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Code Postal</mat-label>
+            <input matInput formControlName="postalCode" type="number"/>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Téléphone</mat-label>
+            <input matInput formControlName="phone"  type="number"/>
+          </mat-form-field>
+        </div>
+      </section>
+
+      <!-- Conjoint -->
+      <section>
+        <h5>Conjoint</h5>
+        <div class="grid grid-cols-2 gap-4">
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Nom et Prénoms</mat-label>
+            <input matInput formControlName="spouseName" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="spouseEmail" />
+          </mat-form-field>
+        </div>
+      </section>
+
+      <!-- Termes du crédit -->
+      <section>
+        <h5>Termes du Crédit</h5>
+        <div class="grid grid-cols-2 gap-4">
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Objet</mat-label>
+            <input matInput formControlName="loanPurpose" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Montant</mat-label>
+            <input matInput formControlName="loanAmount" readonly="true" />
+          </mat-form-field>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Durée</mat-label>
+            <input matInput formControlName="loanDuration" readonly="true" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Période de franchise</mat-label>
+            <input matInput formControlName="gracePeriod" type="number" />
+          </mat-form-field>
+        </div>
+      </section>
+
+      <!-- Documents -->
+<section>
+  <h5>Documents Fournis</h5>
+  <div class="grid grid-cols-2 gap-2">
+<mat-checkbox *ngFor="let doc of documents; let i = index" [formControl]="getDocumentControl(i)">
+  {{ doc }}
+</mat-checkbox>
+
+  </div>
+</section>
+
+
+      <!-- Terms -->
+      <mat-checkbox formControlName="acceptTerms" class="mt-4">
+        J’accepte les termes et conditions
+      </mat-checkbox>
+
+      <!-- Submit -->
+      <div class="mt-4">
+        <button mat-raised-button color="primary" type="submit" [disabled]="loanForm.invalid">
+          Confirmer la demande
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
