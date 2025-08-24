@@ -1,0 +1,49 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" class="full-width-table">
+
+    <!-- Credit Type -->
+    <ng-container matColumnDef="creditType">
+      <th mat-header-cell *matHeaderCellDef> Credit Type </th>
+      <td mat-cell *matCellDef="let element"> {{element.creditType}} </td>
+    </ng-container>
+
+    <!-- Account Number -->
+    <ng-container matColumnDef="accountNumber">
+      <th mat-header-cell *matHeaderCellDef> Account Number </th>
+      <td mat-cell *matCellDef="let element"> {{element.accountNumber}} </td>
+    </ng-container>
+
+    <!-- Loan Amount -->
+    <ng-container matColumnDef="loanAmount">
+      <th mat-header-cell *matHeaderCellDef> Loan Amount </th>
+      <td mat-cell *matCellDef="let element"> {{element.loanAmount}} </td>
+    </ng-container>
+
+    <!-- Loan Duration -->
+    <ng-container matColumnDef="loanDuration">
+      <th mat-header-cell *matHeaderCellDef> Duration (months) </th>
+      <td mat-cell *matCellDef="let element"> {{element.loanDuration}} </td>
+    </ng-container>
+
+    <!-- Libelle -->
+    <ng-container matColumnDef="libelle">
+      <th mat-header-cell *matHeaderCellDef> Libelle </th>
+      <td mat-cell *matCellDef="let element"> {{element.libelle}} </td>
+    </ng-container>
+
+    <!-- Actions -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element">
+<i-tabler name="edit" class="icon-20" (click)="onEdit(element)" style="cursor:pointer;"></i-tabler>
+
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

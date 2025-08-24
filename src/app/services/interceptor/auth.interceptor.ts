@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
       });
     } else {
       // Optional: You may want to navigate only for certain endpoints (like /api/private)
-      this.router.navigateByUrl('');
+      // this.router.navigateByUrl('');
     }
 
     return next.handle(request);

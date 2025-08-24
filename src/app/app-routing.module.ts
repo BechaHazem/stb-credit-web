@@ -5,6 +5,9 @@ import { FullComponent } from './layouts/full/full.component';
 import { SimulateurCreditComponent } from './pages/simulateur-credit/simulateur-credit.component';
 import { authGuard } from './guards/auth.guard';
 import { BanquierDetailsComponent } from './pages/banquier-details/banquier-details.component';
+import { SimulationsHistoryComponent } from './pages/simulations-history/simulations-history.component';
+import { LoansRequestComponent } from './pages/loans-request/loans-request.component';
+import { RequestListComponent } from './pages/request-list/request-list.component';
 
 const routes: Routes = [
   {
@@ -35,14 +38,26 @@ const routes: Routes = [
           import('./pages/extra/extra.module').then((m) => m.ExtraModule),
       },
       {
-        path: 'simulateur-credit',
+        path: 'credit-simulation',
         component: SimulateurCreditComponent,
       },
       {
         path: 'Banquier-details',
         component: BanquierDetailsComponent,
       },
+      {
+        path: 'simulations-history',
+        component: SimulationsHistoryComponent,
+      },
+            {
+        path: 'loan-request',
+        component: LoansRequestComponent,
+      },
 
+            {
+        path: 'request-list',
+        component: RequestListComponent,
+      },
     ],
   },
   {

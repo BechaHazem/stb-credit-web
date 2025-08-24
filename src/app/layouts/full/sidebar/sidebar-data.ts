@@ -10,12 +10,22 @@ export const navItems: NavItem[] = [
     route: '/dashboard',
   },
   {
-    navCap: 'Ui Components',
+    navCap: 'Credit',
   },
   {
     displayName: 'Simuler un crédit',
     iconName: 'rosette',
-    route: '/simulateur-credit',
+    route: '/credit-simulation',
+  },
+    {
+    displayName: 'Mes Simulations',
+    iconName: 'poker-chip',
+    route: '/simulations-history',
+  },
+  {
+    displayName: 'Mes demandes',
+    iconName: 'list',
+    route: '/request-list',
   },
     {
     displayName: 'Gérer les banquiers',
@@ -55,18 +65,5 @@ export const navItems: NavItem[] = [
     displayName: 'Register',
     iconName: 'user-plus',
     route: '/authentication/register',
-  },
-  {
-    navCap: 'Extra',
-  },
-  {
-    displayName: 'Icons',
-    iconName: 'mood-smile',
-    route: '/extra/icons',
-  },
-  {
-    displayName: 'Sample Page',
-    iconName: 'aperture',
-    route: '/extra/sample-page',
-  },
+  }
 ];
