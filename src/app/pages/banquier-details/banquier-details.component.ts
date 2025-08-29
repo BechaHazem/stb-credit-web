@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Banquier, BanquierServiceService } from 'src/app/services/Banquier/banquier-service.service';
+import { BanquierAddDialogComponent } from '../banquier-add-dialog/banquier-add-dialog.component';
 
 
 export interface productsData {
@@ -64,13 +66,49 @@ export interface productsData {
 })
 
 export class BanquierDetailsComponent implements OnInit {
-  displayedColumns = ['assigned', 'name', 'priority', 'budget'];
+  displayedColumns = ['assigned', 'name', 'priority', 'budget','actions'];
   dataSource: Banquier[] = [];
 
-  constructor(private banquierService: BanquierServiceService) {}
+  constructor(
+    private banquierService: BanquierServiceService , 
+    private dialog: MatDialog
+) {}
 
   ngOnInit() {
     this.banquierService.getAll().subscribe(data => (this.dataSource = data));
   }
+  refreshList() {
+  this.banquierService.getAll().subscribe(data => (this.dataSource = data));
+}
+
+  addBanquier() {
+  const ref = this.dialog.open(BanquierAddDialogComponent, { width: '450px' });
+  ref.afterClosed().subscribe(ok => {
+    if (ok) this.banquierService.getAll().subscribe(data => (this.dataSource = data));
+  });
+}
+deleteBanquier(id: number) {
+  if (confirm('Are you sure you want to delete this banker?')) {
+    this.banquierService.delete(id).subscribe(() => {
+      this.dataSource = this.dataSource.filter(b => b.id !== id);
+    });
+  }
+}
+editBanquier(b: Banquier) {
+  const ref = this.dialog.open(BanquierAddDialogComponent, {
+    width: '450px',
+    data: b   // <-- pass current banker
+  });
+
+  ref.afterClosed().subscribe(result => {
+    if (result) {
+      this.banquierService.update(b.id, result).subscribe(() => {
+                this.refreshList();        // reload after update
+
+      });
+    }
+  });
+}
+
 }
 

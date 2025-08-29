@@ -32,6 +32,9 @@ import { RequestListComponent } from './pages/request-list/request-list.componen
 import { LoansRequestComponent } from './pages/loans-request/loans-request.component';
 import { SimulationsHistoryComponent } from './pages/simulations-history/simulations-history.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BanquierAddDialogComponent } from './pages/banquier-add-dialog/banquier-add-dialog.component';
+import { ProductsDetailsComponent } from './pages/products-details/products-details.component';
+import { ProductAddDialogComponent } from './pages/product-add-dialog/product-add-dialog.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     BanquierDetailsComponent,
     SimulationsHistoryComponent,
     LoansRequestComponent,
-    RequestListComponent
+    RequestListComponent,
+    BanquierAddDialogComponent,
+    ProductsDetailsComponent,
+    ProductAddDialogComponent
   ],
   imports: [
     BrowserModule,
