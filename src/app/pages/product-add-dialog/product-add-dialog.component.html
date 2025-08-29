@@ -1,0 +1,81 @@
+<h2 mat-dialog-title>{{ current ? 'Edit Product' : 'Add Product' }}</h2>
+<mat-dialog-content class="pt-3">
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="w-100 mb-2">
+      <mat-label>Code</mat-label>
+      <input matInput formControlName="code">
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-2">
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description">
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-2">
+      <mat-label>Rate (%)</mat-label>
+      <input matInput type="number" formControlName="rate" step="0.01">
+      <mat-error>Min 0.01</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-2">
+      <mat-label>Minimum Amount</mat-label>
+      <input matInput type="number" formControlName="minimumAmount" step="0.01">
+      <mat-error>Min 0.01</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-2">
+      <mat-label>Maximum Amount</mat-label>
+      <input matInput type="number" formControlName="maximumAmount" step="0.01">
+      <mat-error>Min 0.01</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-2">
+      <mat-label>Minimum Term (months)</mat-label>
+      <input matInput type="number" formControlName="minimumTerm">
+      <mat-error>Min 1</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-2">
+      <mat-label>Maximum Term (months)</mat-label>
+      <input matInput type="number" formControlName="maximumTerm">
+      <mat-error>Min 1</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-2">
+      <mat-label>Minimum Age</mat-label>
+      <input matInput type="number" formControlName="minimumAge">
+      <mat-error>Min 1</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-2">
+      <mat-label>Maximum Age</mat-label>
+      <input matInput type="number" formControlName="maximumAge">
+      <mat-error>Min 1</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-2">
+      <mat-label>Min Deferred Period</mat-label>
+      <input matInput type="number" formControlName="minimumDeferredPeriod">
+      <mat-error>Min 0</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-2">
+      <mat-label>Max Deferred Period</mat-label>
+      <input matInput type="number" formControlName="maximumDeferredPeriod">
+      <mat-error>Min 0</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-2">
+      <mat-label>Issue Fee</mat-label>
+      <input matInput type="number" formControlName="issueFeeAmount1" step="0.01">
+      <mat-error>Min 0</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-flat-button color="primary" [disabled]="form.invalid" (click)="save()">Save</button>
+</mat-dialog-actions>

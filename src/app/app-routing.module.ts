@@ -8,6 +8,7 @@ import { BanquierDetailsComponent } from './pages/banquier-details/banquier-deta
 import { SimulationsHistoryComponent } from './pages/simulations-history/simulations-history.component';
 import { LoansRequestComponent } from './pages/loans-request/loans-request.component';
 import { RequestListComponent } from './pages/request-list/request-list.component';
+import { ProductsDetailsComponent } from './pages/products-details/products-details.component';
 
 const routes: Routes = [
   {
@@ -58,6 +59,10 @@ const routes: Routes = [
         path: 'request-list',
         component: RequestListComponent,
       },
+      {
+        path : "Products-details",
+        component: ProductsDetailsComponent,
+      }
     ],
   },
   {

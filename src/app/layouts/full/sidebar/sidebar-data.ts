@@ -32,6 +32,12 @@ export const navItems: NavItem[] = [
     iconName: 'building-bank',
     route: '/Banquier-details',
   },
+      {
+    displayName: 'Gérer les Produits',
+    iconName: 'package',
+    route: '/Products-details',
+  },
+
 
   {
     displayName: 'Chips',

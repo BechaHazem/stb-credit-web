@@ -26,4 +26,14 @@ export class BanquierServiceService {
   getAll(): Observable<Banquier[]> {
     return this.http.get<Banquier[]>(this.api, { withCredentials: true });
   }
+  create(dto: Omit<Banquier, 'id'>): Observable<any> {
+  return this.http.post(this.api + '/add', dto, { withCredentials: true });
+}
+delete(id: number): Observable<void> {
+  return this.http.delete<void>(`${this.api}/delete/${id}`, { withCredentials: true });
+}
+update(id: number, dto: Omit<Banquier, 'id'>): Observable<any> {
+  return this.http.put(`${this.api}/update/${id}`, dto, { withCredentials: true });
+}
+
 }
