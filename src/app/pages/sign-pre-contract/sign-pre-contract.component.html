@@ -1,0 +1,37 @@
+<!-- src/app/components/sign-pre-contract/sign-pre-contract.component.html -->
+
+<mat-card class="p-6 shadow-lg rounded-2xl">
+  <mat-card-title class="text-xl font-semibold mb-4">
+    Sign Pre-Contract
+  </mat-card-title>
+
+  <mat-horizontal-stepper>
+    <mat-step label="Review Documents">
+      <ng-container *ngIf="!isLoading; else loading">
+        <mat-list>
+          <mat-list-item *ngFor="let doc of documents">
+            <div class="flex justify-between w-full items-center">
+              <span>{{ doc.name }}</span>
+              <button mat-raised-button color="primary" (click)="viewDocument(doc)">
+                View
+              </button>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </ng-container>
+    </mat-step>
+
+    <mat-step label="Sign">
+      <div class="flex flex-col items-center">
+        <p class="mb-4">Please review the documents before signing.</p>
+        <button mat-raised-button color="accent">Sign Contract</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+  <ng-template #loading>
+    <div class="flex justify-center items-center p-6">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+  </ng-template>
+</mat-card>

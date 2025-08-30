@@ -136,7 +136,7 @@ getDocumentControl(index: number): FormControl {
 }
 buildPayload(){
   const customerPayload : Customer = {
-    id : 1,
+    id : this.sharedService.getCustomer().id,
   fullName: this.loanForm.value.fullName,
   email: this.loanForm.value.email,
   idType: this.loanForm.value.idType,
@@ -164,7 +164,7 @@ buildPayload(){
 };
 
 const loanRequestPayload: LoanRequest = {
-  customerId : 1,
+  customerId : this.sharedService.getCustomer().id,
   creditType: this.loanForm.value.creditType,
   accountNumber: this.loanForm.value.accountNumber,
   loanPurpose: this.loanForm.value.loanPurpose,
