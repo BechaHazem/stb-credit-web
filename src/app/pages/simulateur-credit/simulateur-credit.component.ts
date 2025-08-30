@@ -102,7 +102,7 @@ currentSim!: CreditSimulationResponse | null
   saveSimulation(action: any): void {
     if (!this.resultat) return;
 
-    const customerId = 1; // TODO: use real value
+    const customerId = this.sharedService.getCustomer().id;
 
     this.saving = true;
     if(this.currentSim) this.resultat.id = this.currentSim.id;

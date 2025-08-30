@@ -8,14 +8,14 @@
           <div class="text-center">
             <a [routerLink]="['/dashboard']">
               <img
-                src="./assets/images/logos/dark-logo.svg"
+                src="./assets/images/logos/stb-logo.png"
                 class="align-middle m-2"
                 alt="logo"
               />
             </a>
           </div>
 
-          <div class="row m-t-24 custom-row">
+          <!-- <div class="row m-t-24 custom-row">
             <div class="col-12 col-sm-6">
               <button mat-stroked-button class="w-100">
                 <div class="d-flex align-items-center">
@@ -45,9 +45,9 @@
                 </div>
               </button>
             </div>
-          </div>
+          </div> -->
 
-          <div class="or-border m-t-30">or sign in with</div>
+          <div class="or-border m-t-30">sign in with</div>
 
 <form class="m-t-30" [formGroup]="loginForm" (ngSubmit)="login()">
   <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">E-mail</mat-label>
@@ -83,7 +83,7 @@
 
   <mat-error *ngIf="loginError" class="m-t-12">Invalid credentials</mat-error>
 </form>          <span class="d-block f-w-500 text-center m-t-24"
-            >New to Modernize?
+            >New to STB?
             <a
               [routerLink]="['/authentication/register']"
               class="text-decoration-none text-primary f-w-500 f-s-14"

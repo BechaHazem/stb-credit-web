@@ -1,3 +1,4 @@
+import { Customer } from "./customer.entity";
 
 
 export interface Account {
@@ -9,5 +10,6 @@ export interface Account {
   phone:string,
   clientNumber:number,
   role: string;
-  enabled: boolean
+  enabled: boolean;
+  customer: Customer;
 }

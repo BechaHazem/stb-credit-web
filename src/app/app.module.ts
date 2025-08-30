@@ -35,6 +35,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BanquierAddDialogComponent } from './pages/banquier-add-dialog/banquier-add-dialog.component';
 import { ProductsDetailsComponent } from './pages/products-details/products-details.component';
 import { ProductAddDialogComponent } from './pages/product-add-dialog/product-add-dialog.component';
+import { SignPreContractComponent } from './pages/sign-pre-contract/sign-pre-contract.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { ProductAddDialogComponent } from './pages/product-add-dialog/product-ad
     RequestListComponent,
     BanquierAddDialogComponent,
     ProductsDetailsComponent,
-    ProductAddDialogComponent
+    ProductAddDialogComponent,
+    SignPreContractComponent
   ],
   imports: [
     BrowserModule,

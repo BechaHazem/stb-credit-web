@@ -36,7 +36,7 @@ export class SimulationsHistoryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const customerId = 1; // TODO: inject / read from route / auth
+    const customerId = this.sharedService.getCustomer().id; 
     this.creditService.getCustomerSimulations(customerId).subscribe({
       next: (list) => {
         this.dataSource.data = list;

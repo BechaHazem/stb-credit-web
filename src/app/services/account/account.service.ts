@@ -113,6 +113,7 @@ export class AccountService {
         this.router.navigate(['/']);
         break;
       case 'CLIENT':
+        this.sharedService.setCustomer(account.customer)
         this.router.navigate(['/']);
         break;
       default:
