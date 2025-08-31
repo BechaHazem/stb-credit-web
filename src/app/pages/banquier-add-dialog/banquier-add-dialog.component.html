@@ -27,9 +27,13 @@
       <mat-error>Phone is required</mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="w-100 mb-2">
+ <mat-form-field appearance="outline" class="w-100 mb-2">
       <mat-label>Agence</mat-label>
-      <input matInput formControlName="agence">
+      <mat-select formControlName="agence">
+        <mat-option *ngFor="let ag of STB_AGENCES" [value]="ag.name">
+      {{ ag.name }} - {{ ag.city }}
+      </mat-option>
+      </mat-select>
       <mat-error>Agence is required</mat-error>
     </mat-form-field>
   </form>

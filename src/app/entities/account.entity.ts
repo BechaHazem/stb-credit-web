@@ -12,4 +12,5 @@ export interface Account {
   role: string;
   enabled: boolean;
   customer: Customer;
+  agence: string;
 }

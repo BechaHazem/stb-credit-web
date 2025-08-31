@@ -15,17 +15,18 @@ export class RequestListComponent implements OnInit {
 
   displayedColumns: string[] = ['creditType', 'accountNumber', 'loanAmount', 'loanDuration', 'libelle', 'actions'];
   dataSource: MatTableDataSource<LoanRequest> = new MatTableDataSource();
-
+  public role !:string;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private loanRequestService: LoanRequestService, private router :Router,    private sharedService: SharedService) {}
 
   ngOnInit(): void {
+    this.role = this.sharedService.getAccount().role;
     this.loadLoanRequests();
   }
 
   loadLoanRequests() {
-    // Replace 1 with dynamic customerId if needed
+    if(this.role == 'CLIENT'){
     this.loanRequestService.getLoanRequestsByCustomer(this.sharedService.getCustomer().id).subscribe({
       next: (requests) => {
         this.dataSource = new MatTableDataSource(requests);
@@ -33,15 +34,29 @@ export class RequestListComponent implements OnInit {
       },
       error: (err) => console.error(err)
     });
+    } else {
+          this.loanRequestService.getLoanRequestsAgence(this.sharedService.getAccount().agence).subscribe({
+      next: (requests) => {
+        this.dataSource = new MatTableDataSource(requests);
+        this.dataSource.paginator = this.paginator;
+      },
+      error: (err) => console.error(err)
+    });     
+    }
   }
 
   onEdit(loan: LoanRequest) {
-      if (!loan || !loan.step) {
-    console.error("Loan step not found");
-    return;
+      if (!loan) {
+        return;
   }
 
   switch (loan.step) {
+    case 0 : 
+          this.sharedService.setLoanRequest(loan)
+      this.router.navigate(['/loan-request'], {
+      queryParams: { mode: 'review' },
+    });
+      break;
     case 1:
       // Navigate to sign-pre-contract
       this.sharedService.setLoanRequest(loan)

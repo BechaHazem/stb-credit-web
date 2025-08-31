@@ -18,8 +18,8 @@ import { SharedService } from 'src/app/shared/shared.service';
 })
 export class SimulateurCreditComponent implements OnInit {
   form = this.fb.group({
-    montant: [0, [Validators.required, Validators.min(1000)]],
-    duree: [0, [Validators.required, Validators.min(1), Validators.max(60)]],
+    montant: [0, [Validators.required, Validators.min(1000), Validators.max(50000)]],
+    duree: [0, [Validators.required, Validators.min(2), Validators.max(36)]],
     gracePeriod: [0, [Validators.min(0), Validators.max(3)]],
   });
 currentSim!: CreditSimulationResponse | null

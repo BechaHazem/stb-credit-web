@@ -32,6 +32,7 @@ export class SignPreContractComponent implements OnInit {
     let doc = new Document();
     if (loan.customer?.id) doc.customerId = loan.customer?.id;
     if (loan?.id) doc.loanRequestId = loan.id ;
+    
     this.documentService.findByLoanAndCustomer(doc).subscribe({
       next: (docs) => {
         this.documents = docs;

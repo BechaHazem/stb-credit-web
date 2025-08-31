@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Customer } from 'src/app/entities/customer.entity';
 import { LoanRequest } from 'src/app/entities/loan-request.entity';
 import { LoanRequestService } from 'src/app/services/loan-request.service';
@@ -16,49 +16,83 @@ export class LoansRequestComponent implements OnInit{
 
   loanForm!: FormGroup;
   simulation: any;
-
+  STB_AGENCES = [
+  { id: 1, name: "Agence Tunis Siège", city: "Tunis" },
+  { id: 2, name: "Agence Tunis Belvédère", city: "Tunis" },
+  { id: 3, name: "Agence Tunis Montplaisir", city: "Tunis" },
+  { id: 4, name: "Agence Tunis Lafayette", city: "Tunis" },
+  { id: 5, name: "Agence Tunis El Manar", city: "Tunis" },
+  { id: 6, name: "Agence Ariana", city: "Ariana" },
+  { id: 7, name: "Agence La Marsa", city: "La Marsa" },
+  { id: 8, name: "Agence La Goulette", city: "La Goulette" },
+  { id: 9, name: "Agence Bizerte", city: "Bizerte" },
+  { id: 10, name: "Agence Nabeul", city: "Nabeul" },
+  { id: 11, name: "Agence Hammamet", city: "Nabeul" },
+  { id: 12, name: "Agence Sousse", city: "Sousse" },
+  { id: 13, name: "Agence Sousse Corniche", city: "Sousse" },
+  { id: 14, name: "Agence Monastir", city: "Monastir" },
+  { id: 15, name: "Agence Mahdia", city: "Mahdia" },
+  { id: 16, name: "Agence Sfax", city: "Sfax" },
+  { id: 17, name: "Agence Sfax Ville", city: "Sfax" },
+  { id: 18, name: "Agence Gabès", city: "Gabès" },
+  { id: 19, name: "Agence Médenine", city: "Médenine" },
+  { id: 20, name: "Agence Djerba Houmt Souk", city: "Djerba" },
+  { id: 21, name: "Agence Tataouine", city: "Tataouine" },
+  { id: 22, name: "Agence Gafsa", city: "Gafsa" },
+  { id: 23, name: "Agence Kasserine", city: "Kasserine" },
+  { id: 24, name: "Agence Kairouan", city: "Kairouan" },
+  { id: 25, name: "Agence Beja", city: "Beja" },
+  { id: 26, name: "Agence Jendouba", city: "Jendouba" },
+  { id: 27, name: "Agence Kef", city: "Kef" },
+  { id: 28, name: "Agence Siliana", city: "Siliana" },
+  { id: 29, name: "Agence Zaghouan", city: "Zaghouan" },
+  { id: 30, name: "Agence Manouba", city: "Manouba" },
+];
   creditTypes = [
     'Crédit direct',
     'Crédit de consommation',
-    'Prêt auto',
     'Prêt computer',
     'Crédit réaménagement',
-    'Prêt épargne logement',
-    'Prêt épargne confort',
-    'Autre',
   ];
-
-  documents = [
-    'Fiche de paie ou de pension',
-    'Facture Proforma',
-    'Photocopie de la carte grise',
-    'Certificat d’enrôlement',
-    'Jeu de plans approuvés',
-    'Certificat de propriété',
-    'Devis travaux',
-    'Déclaration de revenus',
-    'Promesse de vente',
-    'Titre foncier',
-    'Autorisation de bâtir',
-    'Devis descriptif',
-    'Agrément du promoteur',
-  ];
+  mode !: string | null;
+  loan !: LoanRequest;
+  // documents = [
+  //   'Fiche de paie ou de pension',
+  //   'Facture Proforma',
+  //   'Photocopie de la carte grise',
+  //   'Certificat d’enrôlement',
+  //   'Jeu de plans approuvés',
+  //   'Certificat de propriété',
+  //   'Devis travaux',
+  //   'Déclaration de revenus',
+  //   'Promesse de vente',
+  //   'Titre foncier',
+  //   'Autorisation de bâtir',
+  //   'Devis descriptif',
+  //   'Agrément du promoteur',
+  // ];
+  public role !:string;
 
   constructor(
     private fb: FormBuilder,
     private sharedService: SharedService,
     private loanService: LoanRequestService,
     private router: Router,
-      private snackBar: MatSnackBar
+      private snackBar: MatSnackBar,
+          private route: ActivatedRoute,
+
   ) {}
 
   ngOnInit(): void {
+    
+    this.role = this.sharedService.getAccount().role;
 this.sharedService.simulation$.subscribe(sim => {
   this.simulation = sim;
 });
 
     this.loanForm = this.fb.group({
       creditType: ['', Validators.required],
+      agence: ['', Validators.required],
       accountNumber: ['', [Validators.required, Validators.minLength(14)]],
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -92,15 +126,17 @@ this.sharedService.simulation$.subscribe(sim => {
       acceptTerms: [false, Validators.requiredTrue],
     });
 
-    // init documents checkboxes
-    this.documents.forEach(() => {
-      (this.loanForm.get('documents') as FormArray).push(this.fb.control(false));
-    });
+    this.mode = this.route.snapshot.queryParamMap.get('mode');
+    
+  if (this.mode === 'review') {
+     this.loan = this.sharedService.getLoanRequest();
+    if (this.loan) {
+      this.patchForm(this.loan);
+    }
   }
 
-  // get documentsArray(): FormArray {
-  //   return this.loanForm.get('documents') as FormArray;
-  // }
+  }
+
 
 submit(): void {
   if (this.loanForm.invalid) return;
@@ -136,7 +172,7 @@ getDocumentControl(index: number): FormControl {
 }
 buildPayload(){
   const customerPayload : Customer = {
-    id : this.sharedService.getCustomer().id,
+  id : this.mode == 'review' ? this.loan.customerId : this.sharedService.getCustomer().id,
   fullName: this.loanForm.value.fullName,
   email: this.loanForm.value.email,
   idType: this.loanForm.value.idType,
@@ -161,26 +197,86 @@ buildPayload(){
   spouseCity: this.loanForm.value.spouseCity,
   spousePostalCode: this.loanForm.value.spousePostalCode,
   spousePhone: this.loanForm.value.spousePhone,
+  accountNumber: this.loanForm.value.accountNumber
 };
 
 const loanRequestPayload: LoanRequest = {
-  customerId : this.sharedService.getCustomer().id,
+  customerId : this.mode == 'review' ? this.loan.customerId : this.sharedService.getCustomer().id,
   creditType: this.loanForm.value.creditType,
-  accountNumber: this.loanForm.value.accountNumber,
+  agence:this.loanForm.value.agence,
+  accountNumber: this.mode == 'review' ? this.loan.accountNumber : '',
   loanPurpose: this.loanForm.value.loanPurpose,
   loanAmount: this.loanForm.value.loanAmount,
   loanDuration: this.loanForm.value.loanDuration,
   gracePeriod: this.loanForm.value.gracePeriod,
-  documents: this.loanForm.value.documents
-    .map((checked: boolean, i: number) => checked ? this.documents[i] : null)
-    .filter((v: string | null) => v !== null)
-    .join(','),
+  // documents: this.loanForm.value.documents
+  //   .map((checked: boolean, i: number) => checked ? this.documents[i] : null)
+  //   .filter((v: string | null) => v !== null)
+  //   .join(','),
   acceptTerms: this.loanForm.value.acceptTerms,
   simulationId: this.simulation?.id,
-  step: 1,
-  libelle: 'sign-pre-contract',
-  customer: customerPayload, // nested object
+  step: 0,
+  libelle: 'pending',
+  customer: customerPayload, 
 };
 return loanRequestPayload;
+}
+
+private patchForm(loan: LoanRequest): void {
+  this.loanForm.patchValue({
+    creditType: loan.creditType,
+    agence: loan.agence,
+    // accountNumber: loan.accountNumber,
+    loanPurpose: loan.loanPurpose,
+    loanAmount: loan.loanAmount,
+    loanDuration: loan.loanDuration,
+    gracePeriod: loan.gracePeriod,
+    acceptTerms: loan.acceptTerms,
+    step: loan.step,
+    libelle: loan.libelle
+  });
+
+  // customer section
+  const c = loan.customer;
+  if (c) {
+    this.loanForm.patchValue({
+      fullName: c.fullName,
+      email: c.email,
+      idType: c.idType,
+      idNumber: c.idNumber,
+      idIssueDate: c.idIssueDate,
+      fiscalNumber: c.fiscalNumber,
+      employer: c.employer,
+      profession: c.profession,
+      address: c.address,
+      city: c.city,
+      postalCode: c.postalCode,
+      phone: c.phone,
+      spouseName: c.spouseName,
+      spouseEmail: c.spouseEmail,
+      spouseIdType: c.spouseIdType,
+      spouseIdNumber: c.spouseIdNumber,
+      spouseIdIssueDate: c.spouseIdIssueDate,
+      spouseFiscalNumber: c.spouseFiscalNumber,
+      spouseEmployer: c.spouseEmployer,
+      spouseProfession: c.spouseProfession,
+      spouseAddress: c.spouseAddress,
+      spouseCity: c.spouseCity,
+      spousePostalCode: c.spousePostalCode,
+      spousePhone: c.spousePhone,
+      accountNumber: c.accountNumber
+    });
+  }
+}
+accept(){
+    if (this.loanForm.invalid) return;
+
+    const payload = this.buildPayload();
+  this.loanService.update(payload).subscribe({
+      next: () => {
+        this.router.navigate(['/'])
+      },
+      error: (err) => console.error(err)
+    });     
 }
 }

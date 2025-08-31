@@ -18,6 +18,15 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+   <mat-form-field appearance="outline" class="w-100 mb-2">
+      <mat-label>Agence</mat-label>
+      <mat-select formControlName="agence">
+        <mat-option *ngFor="let ag of STB_AGENCES" [value]="ag.name">
+      {{ ag.name }} - {{ ag.city }}
+      </mat-option>
+      </mat-select>
+      <mat-error>Agence is required</mat-error>
+    </mat-form-field>
 </section>
 
 
@@ -56,7 +65,9 @@
 
           <mat-form-field appearance="outline" class="col-4">
             <mat-label>Numéro</mat-label>
-            <input matInput formControlName="idNumber" type="number"/>
+            <input matInput formControlName="idNumber" type="tel"        maxlength="8"
+    pattern="[0-9\s\-]*"
+    oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,8)"/>
           </mat-form-field>
           <mat-form-field appearance="outline" class="col-4">
             <mat-label>Délivrée le</mat-label>
@@ -145,7 +156,7 @@
       </section>
 
       <!-- Documents -->
-<section>
+<!-- <section>
   <h5>Documents Fournis</h5>
   <div class="grid grid-cols-2 gap-2">
 <mat-checkbox *ngFor="let doc of documents; let i = index" [formControl]="getDocumentControl(i)">
@@ -153,7 +164,7 @@
 </mat-checkbox>
 
   </div>
-</section>
+</section> -->
 
 
       <!-- Terms -->
@@ -163,8 +174,11 @@
 
       <!-- Submit -->
       <div class="mt-4">
-        <button mat-raised-button color="primary" type="submit" [disabled]="loanForm.invalid">
+        <button *ngIf="role =='CLIENT'" mat-raised-button color="primary" type="submit" [disabled]="loanForm.invalid">
           Confirmer la demande
+        </button>
+                <button *ngIf="role =='BANQUIER'"  mat-raised-button color="primary" (click)="accept()">
+          Accepter
         </button>
       </div>
     </form>

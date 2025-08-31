@@ -9,6 +9,7 @@ export class LoanRequest {
 
   // Loan details
   creditType!: string;
+  agence!: string;
   accountNumber!: string;
 
   loanPurpose!: string;

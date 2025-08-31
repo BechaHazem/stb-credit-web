@@ -43,4 +43,10 @@ export class LoanRequestService {
     getLoanRequestsByCustomer(customerId: number): Observable<LoanRequest[]> {
     return this.http.get<LoanRequest[]>(`${this.apiUrl}/customer/${customerId}`);
   }
+      getLoanRequestsAgence(agence: string): Observable<LoanRequest[]> {
+    return this.http.get<LoanRequest[]>(`${this.apiUrl}/banker/${agence}`);
+  }
+  update(loan: LoanRequest): Observable<LoanRequest> {
+    return this.http.put<LoanRequest>(`${this.apiUrl}`,loan);
+  }
 }
