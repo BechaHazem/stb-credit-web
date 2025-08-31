@@ -5,7 +5,7 @@ export class Customer {
   fullName!: string;
   email!: string;
   phone!: string;
-
+accountNumber !: string;
   // Identity
   idType!: string;
   idNumber!: string;
