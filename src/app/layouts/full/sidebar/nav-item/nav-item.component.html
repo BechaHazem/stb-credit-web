@@ -1,4 +1,4 @@
-<div mat-subheader *ngIf="item.navCap" class="nav-caption">
+<div mat-subheader *ngIf="item.navCap " class="nav-caption"  >
   {{ item.navCap }}
 </div>
 <a
@@ -10,7 +10,7 @@
       : false,
   }"
   class="menu-list-item"
-  *ngIf="!item.navCap"
+  *ngIf="!item.navCap && account.hasAnyAuthority(item.roles)"
 >
   <i-tabler
     class="routeIcon"

@@ -1,36 +1,63 @@
-<!-- src/app/components/sign-pre-contract/sign-pre-contract.component.html -->
 
-<mat-card class="p-6 shadow-lg rounded-2xl">
-  <mat-card-title class="text-xl font-semibold mb-4">
+<mat-card class="p-4 shadow rounded-3" style="    padding: 20px !important;">
+
+  <mat-card-title class="h5 mb-4 fw-semibold text-center">
     Sign Pre-Contract
   </mat-card-title>
 
-  <mat-horizontal-stepper>
-    <mat-step label="Review Documents">
-      <ng-container *ngIf="!isLoading; else loading">
-        <mat-list>
-          <mat-list-item *ngFor="let doc of documents">
-            <div class="flex justify-between w-full items-center">
-              <span>{{ doc.name }}</span>
-              <button mat-raised-button color="primary" (click)="viewDocument(doc)">
-                View
-              </button>
-            </div>
-          </mat-list-item>
-        </mat-list>
-      </ng-container>
-    </mat-step>
+  <!-- Customer + Loan Info -->
+  <div class="p-3 border rounded bg-light mb-3" *ngIf="loan">
+    <p class="mb-1"><strong>Customer:</strong> {{ loan.customer?.fullName }}</p>
+    <p class="mb-1"><strong>Loan Amount:</strong> {{ loan.loanAmount| currency:'TND' }}</p>
+    <p class="mb-0"><strong>Loan Type:</strong> {{ loan.creditType }}</p>
+  </div>
 
-    <mat-step label="Sign">
-      <div class="flex flex-col items-center">
-        <p class="mb-4">Please review the documents before signing.</p>
-        <button mat-raised-button color="accent">Sign Contract</button>
-      </div>
-    </mat-step>
-  </mat-horizontal-stepper>
+  <!-- Step indicator -->
+  <mat-progress-bar mode="determinate" value="30"></mat-progress-bar>
+  <p class="text-center small mt-2">Step 1 of 3: Pre-Contract Signature</p>
 
+  <!-- Document list -->
+  <div *ngIf="!isLoading; else loading">
+    <mat-list>
+      <mat-list-item *ngFor="let doc of documents" class="d-flex justify-content-between align-items-center mb-2">
+        <span class="fw-medium">{{ doc.name }}</span>
+        <button mat-raised-button color="primary" class="ms-3" (click)="viewDocument(doc)">
+          View
+        </button>
+      </mat-list-item>
+    </mat-list>
+
+  </div>
+
+  <!-- Legal note -->
+   <div *ngIf="role=='CLIENT'">
+  <div class="alert alert-info mt-3">
+    <small>
+      Please review all documents carefully before signing.  
+      By signing, you acknowledge that you have read and understood the terms and conditions.
+    </small>
+  </div>
+
+  <!-- Sign button -->
+  <div class="text-center mt-4">
+    <button mat-raised-button color="accent">Sign Contract</button>
+  </div>
+
+  <!-- Support -->
+  <div class="mt-4 text-center text-muted small">
+    Need help? Contact your branch at <strong>71 123 456</strong>  
+    or email <a href="mailto:support@stb.com.tn">support@stb.com.tn</a>.
+  </div>
+</div>
+<div *ngIf="role=='BANQUIER'" class="mt-4" style="text-align: end;">
+                <button  *ngIf="role =='BANQUIER'" type="button"  mat-raised-button color="primary" (click)="nextStep()">
+          Accepter
+        </button>
+
+</div>
+  <!-- Loader -->
   <ng-template #loading>
-    <div class="flex justify-center items-center p-6">
+    <div class="d-flex justify-content-center align-items-center p-4">
       <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     </div>
   </ng-template>

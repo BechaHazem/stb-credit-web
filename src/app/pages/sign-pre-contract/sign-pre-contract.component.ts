@@ -1,8 +1,10 @@
 // src/app/components/sign-pre-contract/sign-pre-contract.component.ts
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Document } from 'src/app/entities/document.entity';
 import { LoanRequest } from 'src/app/entities/loan-request.entity';
 import { DocumentService } from 'src/app/services/document.service';
+import { LoanRequestService } from 'src/app/services/loan-request.service';
 import { SharedService } from 'src/app/shared/shared.service';
 
 
@@ -14,16 +16,20 @@ import { SharedService } from 'src/app/shared/shared.service';
 export class SignPreContractComponent implements OnInit {
   documents: Document[] = [];
   isLoading = false;
-
+  public role !:string;
+  public loan !: LoanRequest
   constructor(
     private sharedService: SharedService,
-    private documentService: DocumentService
+    private documentService: DocumentService,
+    private router: Router,
+        private loanService: LoanRequestService
   ) {}
 
   ngOnInit(): void {
-    const loan = this.sharedService.getLoanRequest();
-    if (loan) {
-      this.loadDocuments(loan);
+    this.role = this.sharedService.getAccount().role;
+     this.loan = this.sharedService.getLoanRequest();
+    if (this.loan) {
+      this.loadDocuments(this.loan);
     }
   }
 
@@ -62,4 +68,16 @@ export class SignPreContractComponent implements OnInit {
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], { type: mime });
   }
+  nextStep(){
+    if (this.loan?.id !== undefined) {
+      this.loan.step = 2 ;
+      this.loan.libelle = 'check-score';
+  this.loanService.updateLoanRequest(this.loan.id,this.loan).subscribe({
+      next: () => {
+        this.router.navigate(['/'])
+      },
+      error: (err) => console.error(err)
+    });     
+}
+}
 }

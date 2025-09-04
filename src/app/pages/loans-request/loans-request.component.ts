@@ -72,6 +72,7 @@ export class LoansRequestComponent implements OnInit{
   //   'Agrément du promoteur',
   // ];
   public role !:string;
+  public customer !: Customer;
 
   constructor(
     private fb: FormBuilder,
@@ -86,6 +87,7 @@ export class LoansRequestComponent implements OnInit{
   ngOnInit(): void {
     
     this.role = this.sharedService.getAccount().role;
+    this.customer = this.sharedService.getCustomer();
 this.sharedService.simulation$.subscribe(sim => {
   this.simulation = sim;
 });
@@ -99,6 +101,9 @@ this.sharedService.simulation$.subscribe(sim => {
       idType: ['', Validators.required],
       idNumber: ['', Validators.required],
       idIssueDate: ['', Validators.required],
+        age: [0, [Validators.required, Validators.min(18), Validators.max(100)]],
+  monthlyIncome: [0, [Validators.required, Validators.min(0)]],
+  monthlyExpenses: [0, Validators.min(0)],
       fiscalNumber: [''],
       employer: [''],
       profession: [''],
@@ -133,6 +138,8 @@ this.sharedService.simulation$.subscribe(sim => {
     if (this.loan) {
       this.patchForm(this.loan);
     }
+  } else if (this.customer){
+    this.setCustomer(this.customer)
   }
 
   }
@@ -172,7 +179,7 @@ getDocumentControl(index: number): FormControl {
 }
 buildPayload(){
   const customerPayload : Customer = {
-  id : this.mode == 'review' ? this.loan.customerId : this.sharedService.getCustomer().id,
+  id:0,
   fullName: this.loanForm.value.fullName,
   email: this.loanForm.value.email,
   idType: this.loanForm.value.idType,
@@ -197,8 +204,16 @@ buildPayload(){
   spouseCity: this.loanForm.value.spouseCity,
   spousePostalCode: this.loanForm.value.spousePostalCode,
   spousePhone: this.loanForm.value.spousePhone,
-  accountNumber: this.loanForm.value.accountNumber
+  accountNumber: this.loanForm.value.accountNumber,
+    age: this.loanForm.value.age,
+  monthlyIncome: this.loanForm.value.monthlyIncome,
+  monthlyExpenses: this.loanForm.value.monthlyExpenses,
 };
+if(this.mode == 'review' && this.loan?.customer?.id){
+  customerPayload.id = this.loan?.customer?.id;
+} else {
+  customerPayload.id = this.sharedService.getCustomer().id
+}
 
 const loanRequestPayload: LoanRequest = {
   customerId : this.mode == 'review' ? this.loan.customerId : this.sharedService.getCustomer().id,
@@ -215,8 +230,8 @@ const loanRequestPayload: LoanRequest = {
   //   .join(','),
   acceptTerms: this.loanForm.value.acceptTerms,
   simulationId: this.simulation?.id,
-  step: 0,
-  libelle: 'pending',
+  step: this.mode == 'review' ? 1 : 0,
+  libelle: this.mode == 'review' ? 'sign-pre-contract' : 'pending',
   customer: customerPayload, 
 };
 return loanRequestPayload;
@@ -239,7 +254,11 @@ private patchForm(loan: LoanRequest): void {
   // customer section
   const c = loan.customer;
   if (c) {
-    this.loanForm.patchValue({
+    this.setCustomer(c)
+  }
+}
+setCustomer(c :Customer){
+      this.loanForm.patchValue({
       fullName: c.fullName,
       email: c.email,
       idType: c.idType,
@@ -264,19 +283,26 @@ private patchForm(loan: LoanRequest): void {
       spouseCity: c.spouseCity,
       spousePostalCode: c.spousePostalCode,
       spousePhone: c.spousePhone,
-      accountNumber: c.accountNumber
+      accountNumber: c.accountNumber,
+          age: c.age,
+    monthlyIncome: c.monthlyIncome,
+    monthlyExpenses: c.monthlyExpenses,
     });
-  }
 }
 accept(){
     if (this.loanForm.invalid) return;
 
+    if (this.loan?.id !== undefined) {
     const payload = this.buildPayload();
-  this.loanService.update(payload).subscribe({
+    payload.id = this.loan?.id;
+
+          
+  this.loanService.updateLoanRequest(this.loan.id,payload).subscribe({
       next: () => {
         this.router.navigate(['/'])
       },
       error: (err) => console.error(err)
     });     
+}
 }
 }

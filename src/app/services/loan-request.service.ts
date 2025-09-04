@@ -17,7 +17,7 @@ export class LoanRequestService {
    * Create a new loan request
    */
   createLoanRequest(payload: LoanRequest): Observable<LoanRequest> {
-    return this.http.post<LoanRequest>(this.apiUrl, payload);
+    return this.http.post<LoanRequest>(this.apiUrl + '/' , payload);
   }
 
   /**
@@ -38,7 +38,7 @@ export class LoanRequestService {
    * Update loan request (useful for changing step later)
    */
   updateLoanRequest(id: number, payload: Partial<LoanRequest>): Observable<LoanRequest> {
-    return this.http.put<LoanRequest>(`${this.apiUrl}/${id}`, payload);
+    return this.http.put<LoanRequest>(`${this.apiUrl}/update/${id}`, payload);
   }
     getLoanRequestsByCustomer(customerId: number): Observable<LoanRequest[]> {
     return this.http.get<LoanRequest[]>(`${this.apiUrl}/customer/${customerId}`);

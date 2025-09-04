@@ -49,32 +49,31 @@ export class RequestListComponent implements OnInit {
       if (!loan) {
         return;
   }
-
+  this.sharedService.setLoanRequest(loan)
   switch (loan.step) {
     case 0 : 
-          this.sharedService.setLoanRequest(loan)
+          
       this.router.navigate(['/loan-request'], {
       queryParams: { mode: 'review' },
     });
       break;
     case 1:
-      // Navigate to sign-pre-contract
-      this.sharedService.setLoanRequest(loan)
-      this.router.navigate(['/loan/sign-pre-contract']);
+      this.router.navigate(['/loan/sign-pre-contract'], {
+      queryParams: { mode: 'review' },
+    });
       break;
 
-    case 2:
-      // Example: go to document upload step
-      this.router.navigate(['/loan/upload-documents', loan.id]);
+      case 2:
+      this.router.navigate(['/loan/check-score']);
       break;
 
     case 3:
-      // Example: go to approval step
-      this.router.navigate(['/loan/approval', loan.id]);
+      this.router.navigate(['/loan/upload-documents']);
       break;
 
+
+
     case 4:
-      // Example: go to summary
       this.router.navigate(['/loan/summary', loan.id]);
       break;
 
