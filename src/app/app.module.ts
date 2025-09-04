@@ -36,6 +36,7 @@ import { BanquierAddDialogComponent } from './pages/banquier-add-dialog/banquier
 import { ProductsDetailsComponent } from './pages/products-details/products-details.component';
 import { ProductAddDialogComponent } from './pages/product-add-dialog/product-add-dialog.component';
 import { SignPreContractComponent } from './pages/sign-pre-contract/sign-pre-contract.component';
+import { CheckScoreComponent } from './pages/check-score/check-score.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { SignPreContractComponent } from './pages/sign-pre-contract/sign-pre-con
     BanquierAddDialogComponent,
     ProductsDetailsComponent,
     ProductAddDialogComponent,
-    SignPreContractComponent
+    SignPreContractComponent,
+    CheckScoreComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,52 @@
+<!-- check-score.component.html -->
+<mat-card class="p-4 shadow rounded-3">
+  <mat-card-title class="h5 mb-4 fw-semibold text-center">
+    Customer Credit Score
+  </mat-card-title>
+
+  <!-- BANKER VIEW -->
+  <div *ngIf="role === 'BANQUIER'" class="text-center">
+    <button mat-raised-button color="primary" class="mb-4"
+            (click)="calculateScore()"
+            [disabled]="isLoading || scoreCalculated">
+      {{ scoreCalculated ? 'Score Calculated' : 'Calculate Score' }}
+    </button>
+  </div>
+
+  <!-- LOADING -->
+  <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center p-4">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+
+  <!-- COMMON SCORE RESULT -->
+<!-- COMMON SCORE RESULT -->
+<ng-container *ngIf="!isLoading && scoreCalculated">
+  <div class="text-center">
+    <div class="d-flex justify-content-center mb-3 position-relative">
+      <mat-progress-spinner
+        [value]="score"
+        [color]="riskColor"
+        diameter="120"
+        strokeWidth="10">
+      </mat-progress-spinner>
+
+      <!-- score inside the circle -->
+      <div class="position-absolute d-flex align-items-center justify-content-center w-100 h-100">
+        <span class="fw-bold" style="font-size: 28px; color: #000;">
+          {{ score }}
+        </span>
+      </div>
+    </div>
+
+    <p [style.color]="riskColor" class="fw-medium mb-0">{{ riskLabel }}</p>
+  </div>
+</ng-container>
+
+  <!-- CLIENT WAITING -->
+  <div *ngIf="role === 'CLIENT' && !scoreCalculated" class="text-center mt-4">
+    <div class="alert alert-info">
+      Your credit score is currently being processed by the bank.<br>
+      Please check back later.
+    </div>
+  </div>
+</mat-card>

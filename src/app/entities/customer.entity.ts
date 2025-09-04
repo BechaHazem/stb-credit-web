@@ -11,7 +11,9 @@ accountNumber !: string;
   idNumber!: string;
   idIssueDate!: Date;
   fiscalNumber!: string;
-
+age!: number;                  // Integer
+monthlyExpenses!: number;      // BigDecimal → number (JS/TS)
+monthlyIncome!: number;        // BigDecimal → number (JS/TS)
   // Professional info
   employer!: string;
   profession!: string;

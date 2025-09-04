@@ -113,6 +113,23 @@
             <input matInput formControlName="phone"  type="number"/>
           </mat-form-field>
         </div>
+        <!-- inside profession section -->
+<div class="grid grid-cols-3 gap-4">
+  <mat-form-field appearance="outline" class="col-4">
+    <mat-label>Âge</mat-label>
+    <input matInput type="number" formControlName="age" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-4">
+    <mat-label>Revenu mensuel (DT)</mat-label>
+    <input matInput type="number" formControlName="monthlyIncome" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-4">
+    <mat-label>Charges mensuelles (DT)</mat-label>
+    <input matInput type="number" formControlName="monthlyExpenses" />
+  </mat-form-field>
+</div>
       </section>
 
       <!-- Conjoint -->
@@ -177,7 +194,7 @@
         <button *ngIf="role =='CLIENT'" mat-raised-button color="primary" type="submit" [disabled]="loanForm.invalid">
           Confirmer la demande
         </button>
-                <button *ngIf="role =='BANQUIER'"  mat-raised-button color="primary" (click)="accept()">
+                <button  *ngIf="role =='BANQUIER'" type="button"  mat-raised-button color="primary" (click)="accept()">
           Accepter
         </button>
       </div>
