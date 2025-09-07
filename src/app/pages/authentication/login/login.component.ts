@@ -19,7 +19,7 @@ export class AppSideLoginComponent {
   loginError = false;
 
   loginForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
+    username: ['', Validators.required],
     password: ['', Validators.required],
     rememberMe: [false],
   });
@@ -34,7 +34,7 @@ export class AppSideLoginComponent {
     this.loginError = false;
 
     const credentials: LoginRequest = {
-      email: this.loginForm.value.email!,
+      username: this.loginForm.value.username!,
       password: this.loginForm.value.password!,
       rememberMe: this.loginForm.value.rememberMe!,
     };
