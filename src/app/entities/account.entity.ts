@@ -13,4 +13,5 @@ export interface Account {
   enabled: boolean;
   customer: Customer;
   agence: string;
+  username : string;
 }
