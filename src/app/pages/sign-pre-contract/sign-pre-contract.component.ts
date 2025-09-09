@@ -1,6 +1,8 @@
 // src/app/components/sign-pre-contract/sign-pre-contract.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { SignaturePad } from 'angular2-signaturepad';
+import { switchMap } from 'rxjs';
 import { Document } from 'src/app/entities/document.entity';
 import { LoanRequest } from 'src/app/entities/loan-request.entity';
 import { Signature } from 'src/app/entities/signature.entity';
@@ -26,6 +28,15 @@ export class SignPreContractComponent implements OnInit {
   signaturePreview: string | null = null;
 
   isSigned = false;
+  mode: 'draw' | 'file' = 'draw';
+@ViewChild(SignaturePad) signaturePad!: SignaturePad;
+signaturePadOptions = {
+  minWidth: 2,
+  canvasWidth: 400,
+  canvasHeight: 150,
+};
+  drawnSignature: string | null = null;
+
 
 
   constructor(
@@ -97,44 +108,38 @@ export class SignPreContractComponent implements OnInit {
     }
   }
   // === Nouvelle partie pour la signature ===
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      this.signatureFile = input.files[0];
+onFileSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files?.[0]) {
+    this.signatureFile = input.files[0];
+    this.drawnSignature = null;
+    const reader = new FileReader();
+    reader.onload = () => this.signaturePreview = reader.result as string;
+    reader.readAsDataURL(this.signatureFile);
+  }
+}
 
-      // Générer une preview
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.signaturePreview = reader.result as string;
-      };
-      reader.readAsDataURL(this.signatureFile);
-    }
+saveSignature() {
+  let file: File;
+  if (this.drawnSignature) {
+    const blob = this.dataURItoBlob(this.drawnSignature);
+    file = new File([blob], 'signature.png', { type: 'image/png' });
+  } else if (this.signatureFile) {
+    file = this.signatureFile;
+  } else {
+    return;
   }
 
-  saveSignature() {
-    if (!this.signatureFile || !this.loan?.id) return;
-
-    // 1. Upload de la signature
-    this.signatureService.uploadSignature(this.signatureFile).subscribe({
-      next: (uploadedSig: Signature) => {
-        console.log("Uploaded signature:", uploadedSig);
-
-        if (!this.loan?.id) {
-          console.error("LoanRequest id is missing");
-          return;
-        }
-
-        this.signatureService.attachSignature(this.loan.id, uploadedSig.signatureUrl).subscribe({
-          next: () => {
-            alert("Contract signed successfully!");
-          },
-          error: (err) => console.error("Error attaching signature:", err)
-        });
-
-      },
-      error: (err) => console.error("Error uploading signature:", err)
-    });
-  }
+  this.signatureService.uploadSignature(file).pipe(
+    switchMap(sig => this.signatureService.attachSignature(this.loan.id!, sig.signatureUrl))
+  ).subscribe({
+    next: () => {
+      alert('Contract signed successfully!');
+      this.router.navigate(['/request-list']);   // ← go to request list
+    },
+    error: err => console.error('Signature flow failed', err)
+  });
+}
 loadActiveSignature() {
   this.signatureService.getMySignature().subscribe({
     next: (sig: Signature | null) => {
@@ -161,4 +166,29 @@ private async urlToFile(url: string, filename: string, mimeType: string): Promis
   const blob = await res.blob();
   return new File([blob], filename, { type: mimeType });
 }
+
+//draw signature 
+drawComplete() {
+  this.drawnSignature = this.signaturePad.toDataURL('image/png');
+  this.signaturePreview = this.drawnSignature;
+  this.signatureFile = null;
+}
+
+clearPad() {
+  this.signaturePad.clear();
+  this.drawnSignature = null;
+  this.signaturePreview = null;
+}
+
+
+
+private dataURItoBlob(dataURI: string): Blob {
+  const byteString = atob(dataURI.split(',')[1]);
+  const mime = dataURI.split(',')[0].split(':')[1].split(';')[0];
+  const ab = new ArrayBuffer(byteString.length);
+  const ia = new Uint8Array(ab);
+  for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
+  return new Blob([ab], { type: mime });
+}
+
 }

@@ -37,6 +37,8 @@ import { ProductsDetailsComponent } from './pages/products-details/products-deta
 import { ProductAddDialogComponent } from './pages/product-add-dialog/product-add-dialog.component';
 import { SignPreContractComponent } from './pages/sign-pre-contract/sign-pre-contract.component';
 import { CheckScoreComponent } from './pages/check-score/check-score.component';
+import { SignaturePadModule } from 'angular2-signaturepad';
+
 
 @NgModule({
   declarations: [
@@ -68,6 +70,7 @@ import { CheckScoreComponent } from './pages/check-score/check-score.component';
     MaterialModule,
     MatSnackBarModule,
     TablerIconsModule.pick(TablerIcons),
+    SignaturePadModule
   ],
   exports: [TablerIconsModule],
   providers: [
