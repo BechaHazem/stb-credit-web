@@ -1,4 +1,3 @@
-
 <mat-card class="p-4 shadow rounded-3" style="    padding: 20px !important;">
 
   <mat-card-title class="h5 mb-4 fw-semibold text-center">
@@ -30,31 +29,44 @@
   </div>
 
   <!-- Legal note -->
-   <div *ngIf="role=='CLIENT'">
-  <div class="alert alert-info mt-3">
-    <small>
-      Please review all documents carefully before signing.  
-      By signing, you acknowledge that you have read and understood the terms and conditions.
-    </small>
-  </div>
+  <div *ngIf="role=='CLIENT'">
+    <div class="alert alert-info mt-3" *ngIf="!isSigned">
+      <small>
+        Please review all documents carefully before signing.
+        By signing, you acknowledge that you have read and understood the terms and conditions.
+      </small>
+    </div>
 
-  <!-- Sign button -->
-  <div class="text-center mt-4">
-    <button mat-raised-button color="accent">Sign Contract</button>
-  </div>
+    <div *ngIf="role === 'CLIENT'  && !isSigned " class="mt-4">
+      <h6 class="mb-3">Upload your signature:</h6>
 
-  <!-- Support -->
-  <div class="mt-4 text-center text-muted small">
-    Need help? Contact your branch at <strong>71 123 456</strong>  
-    or email <a href="mailto:support@stb.com.tn">support@stb.com.tn</a>.
-  </div>
-</div>
-<div *ngIf="role=='BANQUIER'" class="mt-4" style="text-align: end;">
-                <button  *ngIf="role =='BANQUIER'" type="button"  mat-raised-button color="primary" (click)="nextStep()">
-          Accepter
+      <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+
+      <div *ngIf="signaturePreview" class="mt-3 text-center">
+        <h6>Preview:</h6>
+        <img [src]="signaturePreview" alt="Signature Preview" width="200" style="border:1px solid #ccc; padding:5px;" />
+      </div>
+
+      <div class="mt-3 text-center">
+        <button type="button" mat-raised-button color="accent" (click)="saveSignature()"
+          [disabled]="!signatureFile && signaturePreview">
+          Sign Contract
         </button>
+      </div>
+    </div>
 
-</div>
+    <!-- Support -->
+    <div class="mt-4 text-center text-muted small">
+      Need help? Contact your branch at <strong>71 123 456</strong>
+      or email <a href="mailto:support@stb.com.tn">support@stb.com.tn</a>.
+    </div>
+  </div>
+  <div *ngIf="role=='BANQUIER'" class="mt-4" style="text-align: end;">
+    <button *ngIf="role =='BANQUIER'" type="button" mat-raised-button color="primary" (click)="nextStep()">
+      Accepter
+    </button>
+
+  </div>
   <!-- Loader -->
   <ng-template #loading>
     <div class="d-flex justify-content-center align-items-center p-4">
