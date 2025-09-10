@@ -1,4 +1,3 @@
-
 <mat-card class="p-4 shadow rounded-3" style="    padding: 20px !important;">
 
   <mat-card-title class="h5 mb-4 fw-semibold text-center">
@@ -30,31 +29,72 @@
   </div>
 
   <!-- Legal note -->
-   <div *ngIf="role=='CLIENT'">
-  <div class="alert alert-info mt-3">
+<!-- Legal note + signature block (CLIENT only) -->
+<div *ngIf="role==='CLIENT' && !isSigned" class="mt-4">
+  <div class="alert alert-info">
     <small>
-      Please review all documents carefully before signing.  
+      Please review all documents carefully before signing.
       By signing, you acknowledge that you have read and understood the terms and conditions.
     </small>
   </div>
 
+  <h6 class="mb-3">Sign the contract</h6>
+
+  <!-- Choice : draw or file -->
+  <mat-button-toggle-group [(ngModel)]="mode" class="mb-3">
+    <mat-button-toggle value="draw">Draw</mat-button-toggle>
+    <mat-button-toggle value="file">Upload file</mat-button-toggle>
+  </mat-button-toggle-group>
+
+<!-- DRAW MODE -->
+<div *ngIf="mode === 'draw'" class="text-center">
+  <mat-card class="p-3 mb-3" style="border:2px dashed #ccc;border-radius:8px;">
+    <signature-pad [options]="signaturePadOptions"
+                   (onEndEvent)="drawComplete()">
+    </signature-pad>
+  </mat-card>
+  <button mat-raised-button color="warn" (click)="clearPad()">
+    <i-tabler name="eraser" class="icon-18"></i-tabler> Clear
+  </button>
+</div>
+
+<!-- FILE MODE -->
+<div *ngIf="mode === 'file'" class="text-center">
+  <mat-card class="p-4 mb-3" style="border:2px dashed #1976f2;border-radius:8px;background:#f5faff;">
+    <input type="file" accept="image/*" (change)="onFileSelected($event)"
+           class="d-none" #fileInput>
+    <button mat-raised-button color="primary" (click)="fileInput.click()">
+      <i-tabler name="upload" class="icon-18"></i-tabler> Choose File
+    </button>
+    <div class="mt-2 text-muted small">PNG, JPG ≤ 2 MB</div>
+  </mat-card>
+</div>
+  <!-- Preview (both modes) -->
+  <div *ngIf="signaturePreview" class="mt-3 text-center">
+    <h6>Preview:</h6>
+    <img [src]="signaturePreview" width="200" class="border p-2" />
+  </div>
+
   <!-- Sign button -->
-  <div class="text-center mt-4">
-    <button mat-raised-button color="accent">Sign Contract</button>
-  </div>
-
-  <!-- Support -->
-  <div class="mt-4 text-center text-muted small">
-    Need help? Contact your branch at <strong>71 123 456</strong>  
-    or email <a href="mailto:support@stb.com.tn">support@stb.com.tn</a>.
+  <div class="mt-3 text-center">
+    <button mat-raised-button color="accent"
+            (click)="saveSignature()"
+            [disabled]="!signatureFile && !drawnSignature">
+      Sign Contract
+    </button>
   </div>
 </div>
-<div *ngIf="role=='BANQUIER'" class="mt-4" style="text-align: end;">
-                <button  *ngIf="role =='BANQUIER'" type="button"  mat-raised-button color="primary" (click)="nextStep()">
-          Accepter
-        </button>
 
-</div>
+<!-- Support (always visible) -->
+<div class="mt-4 text-center text-muted small">
+  Need help? Contact your branch at <strong>71 123 456</strong>
+  or email <a href="mailto:support@stb.com.tn">support@stb.com.tn</a>.
+</div>  <div *ngIf="role=='BANQUIER'" class="mt-4" style="text-align: end;">
+    <button *ngIf="role =='BANQUIER'" type="button" mat-raised-button color="primary" (click)="nextStep()">
+      Accepter
+    </button>
+
+  </div>
   <!-- Loader -->
   <ng-template #loading>
     <div class="d-flex justify-content-center align-items-center p-4">
