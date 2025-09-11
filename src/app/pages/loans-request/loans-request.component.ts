@@ -258,6 +258,7 @@ private patchForm(loan: LoanRequest): void {
   }
 }
 setCustomer(c :Customer){
+  
       this.loanForm.patchValue({
       fullName: c.fullName,
       email: c.email,

@@ -49,4 +49,10 @@
       Please check back later.
     </div>
   </div>
+  <div *ngIf="role=='BANQUIER'" class="mt-4" style="text-align: end;">
+                <button  *ngIf="role =='BANQUIER'" type="button"  mat-raised-button color="primary" (click)="nextStep()">
+          Accepter
+        </button>
+
+</div>
 </mat-card>
