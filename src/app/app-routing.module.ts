@@ -11,6 +11,7 @@ import { RequestListComponent } from './pages/request-list/request-list.componen
 import { ProductsDetailsComponent } from './pages/products-details/products-details.component';
 import { SignPreContractComponent } from './pages/sign-pre-contract/sign-pre-contract.component';
 import { CheckScoreComponent } from './pages/check-score/check-score.component';
+import { UploadDocumentComponent } from './pages/upload-document/upload-document.component';
 
 const routes: Routes = [
   {
@@ -72,6 +73,10 @@ const routes: Routes = [
       {
         path : "loan/check-score",
         component: CheckScoreComponent,
+      },
+      {
+        path: "loan/upload-documents",
+        component: UploadDocumentComponent
       }
     ],
   },

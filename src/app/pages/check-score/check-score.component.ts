@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoanRequest } from 'src/app/entities/loan-request.entity';
 import { LoanRequestService } from 'src/app/services/loan-request.service';
 import { ScoringService } from 'src/app/services/scoring.service';
@@ -25,7 +26,10 @@ export class CheckScoreComponent {
 
   constructor(
     private scoringService: ScoringService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private loanService: LoanRequestService,
+    private router: Router,
+    
   ) {
     /* grab the loan we want to score */
     this.loan = this.sharedService.getLoanRequest(); // or however you store it
@@ -51,7 +55,17 @@ export class CheckScoreComponent {
       });
   }
   nextStep(){
-    
+        if (this.loan?.id !== undefined) {
+      this.loan.step = 3;
+      this.loan.libelle = 'add-documents';
+      this.loanService.updateLoanRequest(this.loan.id, this.loan).subscribe({
+        next: () => {
+          this.router.navigate(['/'])
+        },
+        error: (err) => console.error(err)
+      });
+    }
+
   }
 
 }

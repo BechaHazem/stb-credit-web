@@ -38,6 +38,7 @@ import { ProductAddDialogComponent } from './pages/product-add-dialog/product-ad
 import { SignPreContractComponent } from './pages/sign-pre-contract/sign-pre-contract.component';
 import { CheckScoreComponent } from './pages/check-score/check-score.component';
 import { SignaturePadModule } from 'angular2-signaturepad';
+import { UploadDocumentComponent } from './pages/upload-document/upload-document.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { SignaturePadModule } from 'angular2-signaturepad';
     ProductsDetailsComponent,
     ProductAddDialogComponent,
     SignPreContractComponent,
-    CheckScoreComponent
+    CheckScoreComponent,
+    UploadDocumentComponent
   ],
   imports: [
     BrowserModule,
