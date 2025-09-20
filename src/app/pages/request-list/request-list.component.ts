@@ -84,8 +84,8 @@ export class RequestListComponent implements OnInit {
   }
 
   onView(loan: LoanRequest) {
-    console.log('View loan request', loan);
-    // Open detail modal or page
+    this.sharedService.setLoanRequest(loan)
+    this.router.navigate(['schedule'])
   }
 
 }

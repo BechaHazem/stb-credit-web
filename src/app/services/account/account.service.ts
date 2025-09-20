@@ -117,7 +117,7 @@ export class AccountService {
         this.router.navigate(['/request-list']);
         break;
       default:
-        this.router.navigate(['/']);
+        this.router.navigate(['/request-list']);
         break;
     }
   }

@@ -12,6 +12,8 @@ import { ProductsDetailsComponent } from './pages/products-details/products-deta
 import { SignPreContractComponent } from './pages/sign-pre-contract/sign-pre-contract.component';
 import { CheckScoreComponent } from './pages/check-score/check-score.component';
 import { UploadDocumentComponent } from './pages/upload-document/upload-document.component';
+import { AddDocumentsComponent } from './pages/add-documents/add-documents.component';
+import { ScheduleComponent } from './schedule/schedule.component';
 
 const routes: Routes = [
   {
@@ -21,7 +23,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '/dashboard',
+        redirectTo: '/request-list',
         pathMatch: 'full',
       },
       {
@@ -76,8 +78,13 @@ const routes: Routes = [
       },
       {
         path: "loan/upload-documents",
-        component: UploadDocumentComponent
-      }
+        component: AddDocumentsComponent
+      },
+      {
+  path: 'schedule',
+  component: ScheduleComponent
+}
+
     ],
   },
   {

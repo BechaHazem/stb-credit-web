@@ -39,6 +39,9 @@ import { SignPreContractComponent } from './pages/sign-pre-contract/sign-pre-con
 import { CheckScoreComponent } from './pages/check-score/check-score.component';
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { UploadDocumentComponent } from './pages/upload-document/upload-document.component';
+import { AddDocumentsComponent } from './pages/add-documents/add-documents.component';
+import { LoaderComponent } from './services/interceptor/loader/loader.component';
+import { ScheduleComponent } from './schedule/schedule.component';
 
 
 @NgModule({
@@ -59,8 +62,11 @@ import { UploadDocumentComponent } from './pages/upload-document/upload-document
     ProductsDetailsComponent,
     ProductAddDialogComponent,
     SignPreContractComponent,
+    LoaderComponent,
     CheckScoreComponent,
-    UploadDocumentComponent
+    UploadDocumentComponent,
+    AddDocumentsComponent,
+    ScheduleComponent
   ],
   imports: [
     BrowserModule,

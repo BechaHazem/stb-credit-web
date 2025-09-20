@@ -15,4 +15,7 @@ export class DocumentService {
     findByLoanAndCustomer(doc : Document): Observable<Document[]> {
     return this.http.post<Document[]>(`${this.baseUrl}` , doc);
   }
+  saveDocuments(docs : Document[]):  Observable<Document[]> {
+    return this.http.post<Document[]>(`${this.baseUrl}/save-documents` , docs);
+  }
 }

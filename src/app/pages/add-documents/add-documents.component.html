@@ -1,0 +1,43 @@
+<!-- add-documents.component.html -->
+<div class="container">
+  <mat-spinner *ngIf="isLoading" diameter="40" class="mx-auto"></mat-spinner>
+
+  <!-- NEW: progress header -->
+  <ng-container *ngIf="!isLoading">
+    <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+    <p class="text-center small mt-2">Step 3 of 3: Add Documents</p>
+  </ng-container>
+
+  <div class="cards-wrapper" *ngIf="!isLoading">
+    <mat-card *ngFor="let doc of documents; let i = index" class="doc-card">
+      <mat-card-header>
+        <mat-card-title>{{ doc.name }}</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-actions align="end">
+        <button mat-stroked-button color="primary" (click)="onView(doc)" class="mx-2" [disabled]="!doc.fileBytes">
+          View
+        </button>
+            <input
+      type="file"
+      hidden
+      (change)="onFileSelected($event, doc)"
+      #fileInput
+    />
+
+    <button mat-raised-button color="acacent" (click)="fileInput.click()">
+      Upload
+    </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+    <div  class="mt-4" style="text-align: end;">
+        <button  *ngIf="role =='BANQUIER'" type="button"  mat-raised-button color="primary" (click)="nextStep()">
+          Accepter
+        </button>
+        <button  *ngIf="role =='CLIENT'" type="button"  mat-raised-button color="primary" (click)="save()">
+          Save
+        </button>
+</div>
+</div>

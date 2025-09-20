@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoanRequest } from 'src/app/entities/loan-request.entity';
 import { LoanRequestService } from 'src/app/services/loan-request.service';
@@ -10,7 +10,7 @@ import { SharedService } from 'src/app/shared/shared.service';
   templateUrl: './check-score.component.html',
   styleUrls: ['./check-score.component.scss']
 })
-export class CheckScoreComponent {
+export class CheckScoreComponent implements OnInit {
 
   role: 'CLIENT' | 'BANQUIER' = 'BANQUIER';
 
@@ -20,9 +20,9 @@ export class CheckScoreComponent {
   riskColor = '';
   scoreCalculated = false;
   isLoading = false;
-
+  // customerScore !:number | undefined
   /* current loan to score */
-  private loan: LoanRequest;
+  public loan: LoanRequest;
 
   constructor(
     private scoringService: ScoringService,
@@ -33,6 +33,11 @@ export class CheckScoreComponent {
   ) {
     /* grab the loan we want to score */
     this.loan = this.sharedService.getLoanRequest(); // or however you store it
+  }
+  ngOnInit(): void {
+    if (this.loan.customer?.score){ this.score =this.loan.customer?.score ;
+    this.scoreCalculated = true
+    }
   }
 
   calculateScore(): void {

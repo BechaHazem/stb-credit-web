@@ -1,0 +1,14 @@
+/* add-documents.component.scss */
+.container {
+  padding: 1rem;
+}
+
+.cards-wrapper {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.doc-card {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}

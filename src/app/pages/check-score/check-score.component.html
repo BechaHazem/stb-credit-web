@@ -1,8 +1,21 @@
 <!-- check-score.component.html -->
 <mat-card class="p-4 shadow rounded-3">
+    <ng-container *ngIf="!isLoading">
+    <mat-progress-bar mode="determinate" value="60"></mat-progress-bar>
+    <p class="text-center small mt-2">Step 2 of 3</p>
+  </ng-container>
+
   <mat-card-title class="h5 mb-4 fw-semibold text-center">
     Customer Credit Score
   </mat-card-title>
+
+    <div class="p-3 border rounded bg-light mb-3" *ngIf="loan">
+    <p class="mb-1"><strong>Customer:</strong> {{ loan.customer?.fullName }}</p>
+    <p class="mb-1"><strong>Email:</strong> {{ loan.customer?.email }}</p>
+    <p class="mb-1"><strong>Loan Amount:</strong> {{ loan.loanAmount| currency:'TND' }}</p>
+    <p class="mb-0"><strong>Loan Type:</strong> {{ loan.creditType }}</p>
+    <p class="mb-0"><strong>Account Number:</strong> {{ loan.accountNumber }}</p>
+  </div>
 
   <!-- BANKER VIEW -->
   <div *ngIf="role === 'BANQUIER'" class="text-center">

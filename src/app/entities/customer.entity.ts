@@ -36,4 +36,6 @@ monthlyIncome!: number;        // BigDecimal → number (JS/TS)
   spouseAddress?: string;
   spouseCity?: string;
   spousePostalCode?: string;
+
+  score ?: number;
 }

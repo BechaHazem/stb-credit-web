@@ -53,4 +53,8 @@ export class CreditService {
       `${this.baseUrl}/${customerId}`
     );
   }
+  /* 5. Get one simulation by its id */
+getSimulation(id: number): Observable<CreditSimulationResponse> {
+  return this.http.get<CreditSimulationResponse>(`${this.baseUrl}/simulation/${id}`);
+}
 }
