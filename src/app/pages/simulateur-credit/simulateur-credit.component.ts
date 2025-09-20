@@ -107,8 +107,9 @@ currentSim!: CreditSimulationResponse | null
     this.saving = true;
     if(this.currentSim) this.resultat.id = this.currentSim.id;
     this.creditService.saveSimulation(customerId, this.resultat).subscribe({
-      next: () => {
+      next: (res) => {
         this.saving = false;
+        this.sharedService.setSimulation(res)
         if (action) {
           this.goToLoanRequest();
         } else {

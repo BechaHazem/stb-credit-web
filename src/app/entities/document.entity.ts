@@ -6,4 +6,6 @@ export class Document {
   fileBytes?: string; 
   customerId!: number;
   loanRequestId!: number;
+  contentType!:string;
+  listName!: string[]
 }
