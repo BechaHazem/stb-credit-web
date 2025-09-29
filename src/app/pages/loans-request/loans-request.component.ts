@@ -93,7 +93,6 @@ this.sharedService.simulation$.subscribe(sim => {
 });
 
     this.loanForm = this.fb.group({
-      creditType: ['', Validators.required],
       agence: ['', Validators.required],
       accountNumber: ['', [Validators.required, Validators.minLength(14)]],
       fullName: ['', Validators.required],

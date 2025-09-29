@@ -1,0 +1,50 @@
+<div class="col-lg-8">
+  <mat-card class="cardWithShadow">
+    <mat-card-content class="p-24">
+      <div class="d-flex justify-content-between align-items-center m-b-16">
+        <mat-card-title>Credit Types</mat-card-title>
+        <button mat-flat-button color="primary" (click)="addCreditType()">
+          Add Credit Type
+        </button>
+      </div>
+
+      <div class="table-responsive m-t-16">
+        <table mat-table [dataSource]="dataSource" class="w-100">
+
+          <!-- Type -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600">Type</th>
+            <td mat-cell *matCellDef="let c">
+              {{ c.type }}
+            </td>
+          </ng-container>
+
+          <!-- APR -->
+          <ng-container matColumnDef="apr">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600">APR</th>
+            <td mat-cell *matCellDef="let c">
+              {{ c.apr | percent:'1.2-2' }}
+            </td>
+          </ng-container>
+
+
+          <!-- Actions -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600">Actions</th>
+            <td mat-cell *matCellDef="let c">
+              <button mat-icon-button color="primary" (click)="editCreditType(c)" matTooltip="Edit">
+                <i-tabler name="pencil" class="icon-18"></i-tabler>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteCreditType(c.id)" matTooltip="Delete">
+                <i-tabler name="trash" class="icon-18"></i-tabler>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -14,6 +14,7 @@ import { CheckScoreComponent } from './pages/check-score/check-score.component';
 import { UploadDocumentComponent } from './pages/upload-document/upload-document.component';
 import { AddDocumentsComponent } from './pages/add-documents/add-documents.component';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { TypeCreditDetailsComponent } from './pages/type-credit-details/type-credit-details.component';
 
 const routes: Routes = [
   {
@@ -80,6 +81,11 @@ const routes: Routes = [
         path: "loan/upload-documents",
         component: AddDocumentsComponent
       },
+      {
+        path : "type-credit",
+        component:TypeCreditDetailsComponent
+      },
+      
       {
   path: 'schedule',
   component: ScheduleComponent

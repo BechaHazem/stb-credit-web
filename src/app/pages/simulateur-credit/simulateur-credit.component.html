@@ -2,9 +2,7 @@
   <mat-card class="cardWithShadow theme-card">
     <mat-card-header>
       <mat-card-title class="">Simulateur de crédit</mat-card-title>
-      <mat-card-subtitle
-        >Calculez votre mensualité en 2 clics</mat-card-subtitle
-      >
+      <mat-card-subtitle>Calculez votre mensualité en 2 clics</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
@@ -41,13 +39,20 @@
         <div *ngIf="form.controls['gracePeriod'].hasError('max')">
           La période de grâce ne peut pas dépasser 3 mois.
         </div>
+        <!-- Type de Crédit -->
+<div class="col-12 col-md-6">
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Type de Crédit</mat-label>
+    <mat-select formControlName="creditType" [compareWith]="compareCreditTypes">
+      <mat-option *ngFor="let type of creditTypes" [value]="type">
+        {{ type.type }} ({{ type.apr }} %)
+      </mat-option>
+    </mat-select>
+    <mat-error>Choisir un type de crédit</mat-error>
+  </mat-form-field>
+</div>
         <div class="col-12">
-          <button
-            mat-raised-button
-            color="primary"
-            type="submit"
-            [disabled]="form.invalid || loading"
-          >
+          <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">
             {{ loading ? "Simulation..." : "Simuler" }}
           </button>
         </div>
@@ -80,11 +85,7 @@
             </p>
 
             <h5 class="mt-3">Échéancier</h5>
-            <table
-              mat-table
-              [dataSource]="dataSource"
-              class="mat-elevation-z2 w-100"
-            >
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z2 w-100">
               <!-- Columns as before -->
               <ng-container matColumnDef="period">
                 <th mat-header-cell *matHeaderCellDef>Période</th>
@@ -125,30 +126,16 @@
               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>
 
-            <mat-paginator
-              [pageSizeOptions]="[5, 10, 20,100]"
-              showFirstLastButtons
-              [pageSize]="5"
-            ></mat-paginator>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20,100]" showFirstLastButtons [pageSize]="5"></mat-paginator>
           </mat-card-content>
         </mat-card>
       </div>
       <!-- right after the table/paginator block -->
-      <div class="mt-3" *ngIf="resultat" style="display: flex;justify-content: flex-end;" >
-        <button class="mx-2"
-          mat-raised-button
-          color="accent"
-          [disabled]="saving"
-          (click)="saveSimulation(null)"
-        >
+      <div class="mt-3" *ngIf="resultat" style="display: flex;justify-content: flex-end;">
+        <button class="mx-2" mat-raised-button color="accent" [disabled]="saving" (click)="saveSimulation(null)">
           {{ saving ? "Enregistrement..." : "Enregistrer" }}
         </button>
-        <button
-          mat-raised-button
-          color="primary"
-          class="ml-2"
-          (click)="saveSimulation('loan_request')"
-        >
+        <button mat-raised-button color="primary" class="ml-2" (click)="saveSimulation('loan_request')">
           Demander un crédit
         </button>
       </div>
