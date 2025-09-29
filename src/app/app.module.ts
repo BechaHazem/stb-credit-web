@@ -42,6 +42,8 @@ import { UploadDocumentComponent } from './pages/upload-document/upload-document
 import { AddDocumentsComponent } from './pages/add-documents/add-documents.component';
 import { LoaderComponent } from './services/interceptor/loader/loader.component';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { TypeCreditDetailsComponent } from './pages/type-credit-details/type-credit-details.component';
+import { TypeCreditAddComponent } from './pages/type-credit-add/type-credit-add.component';
 
 
 @NgModule({
@@ -66,7 +68,9 @@ import { ScheduleComponent } from './schedule/schedule.component';
     CheckScoreComponent,
     UploadDocumentComponent,
     AddDocumentsComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    TypeCreditDetailsComponent,
+    TypeCreditAddComponent
   ],
   imports: [
     BrowserModule,

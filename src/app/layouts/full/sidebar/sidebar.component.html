@@ -1,7 +1,7 @@
 <div class="flex-layout">
   <app-branding></app-branding>
   <mat-nav-list class="sidebar-list">
-    <app-nav-item *ngFor="let item of navItems" [item]="item" [hidden]="(item.displayName === 'Gérer les banquiers' || item.displayName === 'Gérer les Produits') && !showItem('ADMIN')"> </app-nav-item>
+    <app-nav-item *ngFor="let item of navItems" [item]="item" [hidden]="(item.displayName === 'Gérer les banquiers' || item.displayName === 'Gérer les Produits' || item.displayName === 'Gérer les types de crédit') && !showItem('ADMIN')"> </app-nav-item>
   </mat-nav-list>
 
 </div>

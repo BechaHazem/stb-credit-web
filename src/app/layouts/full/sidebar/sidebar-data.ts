@@ -17,38 +17,45 @@ export const navItems: NavItem[] = [
     displayName: 'Simuler un crédit',
     iconName: 'rosette',
     route: '/credit-simulation',
-        roles:['CLIENT']
+    roles: ['CLIENT']
   },
-    {
+  {
     displayName: 'Mes Simulations',
     iconName: 'poker-chip',
     route: '/simulations-history',
-            roles:['CLIENT']
+    roles: ['CLIENT']
   },
   {
     displayName: 'Mes demandes',
     iconName: 'list',
     route: '/request-list',
-        roles:['CLIENT']
+    roles: ['CLIENT']
   },
-    {
+  {
     displayName: 'Liste des demandes',
     iconName: 'list',
     route: '/request-list',
-        roles:['BANQUIER','ADMIN']
+    roles: ['BANQUIER', 'ADMIN']
   },
-    {
+  {
     displayName: 'Gérer les banquiers',
     iconName: 'building-bank',
     route: '/Banquier-details',
-        roles:['ADMIN']
+    roles: ['ADMIN']
   },
-      {
+  {
     displayName: 'Gérer les Produits',
     iconName: 'package',
     route: '/Products-details',
-            roles:['ADMIN']
+    roles: ['ADMIN']
   },
+    {
+    displayName: 'Gérer les types de crédit',
+    iconName: 'credit-card',
+    route: '/type-credit',
+    roles: ['ADMIN']
+  },
+
   // {
   //   navCap: 'Auth',
   // },

@@ -1,7 +1,10 @@
+import { creditType } from "./Credit-Type.entity";
+
 export class CreditSimulationRequest {
   public loanAmount!: number;
   public loanTermMonths!: number;
   public gracePeriodMonths!: number;
+    public creditTypeId?: number;
 }
 
 export class CreditSimulationResponse {
@@ -15,6 +18,10 @@ export class CreditSimulationResponse {
   public apr!: number;
   public schedule!: AmortizationLine[];
   public customerId?: number;
+  public creditTypeId?: number;
+  public creditTypeLabel?: string;
+    public creditType?: creditType; // Add this line
+
 }
 
 export class AmortizationLine {
