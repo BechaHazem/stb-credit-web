@@ -15,6 +15,7 @@ import { UploadDocumentComponent } from './pages/upload-document/upload-document
 import { AddDocumentsComponent } from './pages/add-documents/add-documents.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { TypeCreditDetailsComponent } from './pages/type-credit-details/type-credit-details.component';
+import { SignFinalContractComponent } from './pages/sign-final-contract/sign-final-contract.component';
 
 const routes: Routes = [
   {
@@ -89,6 +90,10 @@ const routes: Routes = [
       {
   path: 'schedule',
   component: ScheduleComponent
+},
+{
+  path: 'sign-loan-contract',
+  component: SignFinalContractComponent
 }
 
     ],

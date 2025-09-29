@@ -1,0 +1,105 @@
+<mat-card class="p-4 shadow rounded-3" style="padding: 20px !important;">
+
+  <mat-card-title class="h5 mb-4 fw-semibold text-center">
+    Signature du contrat de prêt
+  </mat-card-title>
+
+  <!-- Informations Client + Prêt -->
+  <div class="p-3 border rounded bg-light mb-3" *ngIf="loan">
+    <p class="mb-1"><strong>Client :</strong> {{ loan.customer?.fullName }}</p>
+    <p class="mb-1"><strong>Montant du prêt :</strong> {{ loan.loanAmount | currency:'TND' }}</p>
+    <p class="mb-0"><strong>Type de prêt :</strong> {{ loan.creditType }}</p>
+  </div>
+
+  <!-- Indicateur d’étape -->
+  <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+  <p class="text-center small mt-2">Étape 3 sur 3 : Signature du contrat</p>
+
+  <!-- Liste des documents -->
+  <div *ngIf="!isLoading; else loading">
+    <mat-list>
+      <mat-list-item *ngFor="let doc of documents" class="d-flex justify-content-between align-items-center mb-2">
+        <span class="fw-medium">{{ doc.name }}</span>
+        <button mat-raised-button color="primary" class="ms-3" (click)="viewDocument(doc)">
+          Voir
+        </button>
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+  <!-- Note légale + Bloc de signature (CLIENT uniquement) -->
+  <div *ngIf="role==='CLIENT' && !isSigned" class="mt-4">
+    <div class="alert alert-info">
+      <small>
+        Veuillez lire attentivement tous les documents avant de signer.
+        En signant, vous reconnaissez avoir pris connaissance et compris les termes et conditions.
+      </small>
+    </div>
+
+    <h6 class="mb-3">Signer le contrat</h6>
+
+    <mat-button-toggle-group [(ngModel)]="mode" class="mb-3">
+      <mat-button-toggle value="draw">Dessiner</mat-button-toggle>
+      <mat-button-toggle value="file">Téléverser un fichier</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <!-- Mode Dessin -->
+    <div *ngIf="mode === 'draw'" class="text-center">
+      <mat-card class="p-3 mb-3" style="border:2px dashed #ccc;border-radius:8px;">
+        <signature-pad [options]="signaturePadOptions"
+                       (onEndEvent)="drawComplete()">
+        </signature-pad>
+      </mat-card>
+      <button mat-raised-button color="warn" (click)="clearPad()">
+        <i-tabler name="eraser" class="icon-18"></i-tabler> Effacer
+      </button>
+    </div>
+
+    <!-- Mode Fichier -->
+    <div *ngIf="mode === 'file'" class="text-center">
+      <mat-card class="p-4 mb-3" style="border:2px dashed #1976f2;border-radius:8px;background:#f5faff;">
+        <input type="file" accept="image/*" (change)="onFileSelected($event)"
+               class="d-none" #fileInput>
+        <button mat-raised-button color="primary" (click)="fileInput.click()">
+          <i-tabler name="upload" class="icon-18"></i-tabler> Choisir un fichier
+        </button>
+        <div class="mt-2 text-muted small">PNG, JPG ≤ 2 Mo</div>
+      </mat-card>
+    </div>
+
+    <!-- Aperçu de la signature -->
+    <div *ngIf="signaturePreview" class="mt-3 text-center">
+      <h6>Aperçu :</h6>
+      <img [src]="signaturePreview" width="200" class="border p-2" />
+    </div>
+
+    <!-- Bouton de validation -->
+    <div class="mt-3 text-center">
+      <button mat-raised-button color="accent"
+              (click)="saveSignature()"
+              [disabled]="!signatureFile && !drawnSignature">
+        Signer le contrat
+      </button>
+    </div>
+  </div>
+
+  <!-- Support (toujours visible) -->
+  <div class="mt-4 text-center text-muted small">
+    Besoin d’aide ? Contactez votre agence au <strong>71 123 456</strong>
+    ou envoyez un email à <a href="mailto:support@stb.com.tn">support@stb.com.tn</a>.
+  </div>
+
+  <!-- Action banquier -->
+  <div *ngIf="role=='BANQUIER'" class="mt-4" style="text-align: end;">
+    <button *ngIf="role =='BANQUIER'" type="button" mat-raised-button color="primary" (click)="nextStep()">
+      Accepter
+    </button>
+  </div>
+
+  <!-- Loader -->
+  <ng-template #loading>
+    <div class="d-flex justify-content-center align-items-center p-4">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+  </ng-template>
+</mat-card>

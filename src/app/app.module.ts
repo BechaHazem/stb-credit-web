@@ -44,6 +44,7 @@ import { LoaderComponent } from './services/interceptor/loader/loader.component'
 import { ScheduleComponent } from './schedule/schedule.component';
 import { TypeCreditDetailsComponent } from './pages/type-credit-details/type-credit-details.component';
 import { TypeCreditAddComponent } from './pages/type-credit-add/type-credit-add.component';
+import { SignFinalContractComponent } from './pages/sign-final-contract/sign-final-contract.component';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { TypeCreditAddComponent } from './pages/type-credit-add/type-credit-add.
     AddDocumentsComponent,
     ScheduleComponent,
     TypeCreditDetailsComponent,
-    TypeCreditAddComponent
+    TypeCreditAddComponent,
+    SignFinalContractComponent
   ],
   imports: [
     BrowserModule,
