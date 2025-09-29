@@ -28,7 +28,7 @@ export class AddDocumentsComponent implements OnInit {
       let doc = new Document();
     if (this.loan.customer?.id) doc.customerId = this.loan.customer?.id;
     if (this.loan?.id) doc.loanRequestId = this.loan.id;
-    doc.listName = ['CIN','domiciliation de salaire']
+    doc.listName = ['CIN','domiciliation de salaire','Fiche de paie']
     this.documentService.findByLoanAndCustomer(doc).subscribe({
       next: (docs) => {
         this.documents = docs;
@@ -89,7 +89,7 @@ export class AddDocumentsComponent implements OnInit {
   nextStep(){
         if (this.loan?.id !== undefined) {
       this.loan.step = 4;
-      this.loan.libelle = 'Issued';
+      this.loan.libelle = 'sign-contract';
       this.loanService.updateLoanRequest(this.loan.id, this.loan).subscribe({
         next: () => {
           this.router.navigate(['/'])

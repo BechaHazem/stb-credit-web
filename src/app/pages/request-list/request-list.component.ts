@@ -74,7 +74,7 @@ export class RequestListComponent implements OnInit {
 
 
     case 4:
-      this.router.navigate(['/loan/summary', loan.id]);
+      this.router.navigate(['/sign-loan-contract']);
       break;
 
     default:

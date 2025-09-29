@@ -54,7 +54,7 @@ signaturePadOptions = {
     console.log(this.loan.id);
     if (this.loan) {
       this.loadDocuments(this.loan);
-      this.loadActiveSignature();   // <-- new
+      this.loadActiveSignature();
 
     }
   }
@@ -68,7 +68,7 @@ signaturePadOptions = {
     this.documentService.findByLoanAndCustomer(doc).subscribe({
       next: (docs) => {
         this.documents = docs;
-        this.isSigned = docs.some(d => d.name.includes('Signed')); // or your own status field
+        this.isSigned = docs.some(d => d.name.includes('Signed'));
         this.isLoading = false;
       },
       error: (err) => {
@@ -107,7 +107,6 @@ signaturePadOptions = {
       });
     }
   }
-  // === Nouvelle partie pour la signature ===
 onFileSelected(event: Event) {
   const input = event.target as HTMLInputElement;
   if (input.files?.[0]) {
@@ -135,7 +134,7 @@ saveSignature() {
   ).subscribe({
     next: () => {
       alert('Contract signed successfully!');
-      this.router.navigate(['/request-list']);   // ← go to request list
+      this.router.navigate(['/request-list']);   
     },
     error: err => console.error('Signature flow failed', err)
   });
@@ -145,7 +144,6 @@ loadActiveSignature() {
     next: (sig: Signature | null) => {
       if (sig) {
         this.signaturePreview = sig.signatureUrl;
-        // create a real File from the preview so the input is populated
         this.urlToFile(sig.signatureUrl, 'signature.png', 'image/png')
           .then(file => this.signatureFile = file)
           .catch(() => this.signatureFile = null);
@@ -167,7 +165,7 @@ private async urlToFile(url: string, filename: string, mimeType: string): Promis
   return new File([blob], filename, { type: mimeType });
 }
 
-//draw signature 
+
 drawComplete() {
   this.drawnSignature = this.signaturePad.toDataURL('image/png');
   this.signaturePreview = this.drawnSignature;
