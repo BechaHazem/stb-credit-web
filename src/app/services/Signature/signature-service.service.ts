@@ -44,6 +44,15 @@ export class SignatureServiceService {
       catchError(() => of(null))   // return null when 204 No-Content
     );
 }
+attachSignatureToContract(loanRequestId: number, signatureUrl: string): Observable<void> {
+  const params = { signatureUrl: signatureUrl };
+  return this.http.post<void>(
+    `${this.Attach_api}/${loanRequestId}/attach-signature-final`, // <- nouveau endpoint
+    null,
+    { params, withCredentials: true },
+  );
+}
+
 
 
 }

@@ -47,11 +47,14 @@ export class SignFinalContractComponent implements OnInit {
       let doc = new Document();
     if (this.loan.customer?.id) doc.customerId = this.loan.customer?.id;
     if (this.loan?.id) doc.loanRequestId = this.loan.id;
-    doc.listName = ['Loan Contract']
+doc.listName = ['Loan Contract', 'Signed Loan Contract', 'Final Signed Loan Contract'];
     this.documentService.findByLoanAndCustomer(doc).subscribe({
       next: (docs) => {
-        this.documents = docs;
-      }})
+     this.documents = docs;
+this.isSigned = docs.some(d => d.name.toLowerCase().includes('signed'));
+            console.log("Docs chargés:", docs);
+
+        this.isLoading = false;      }})
   }
 
    nextStep(){
@@ -92,14 +95,15 @@ export class SignFinalContractComponent implements OnInit {
     }
   
     this.signatureService.uploadSignature(file).pipe(
-      switchMap(sig => this.signatureService.attachSignature(this.loan.id!, sig.signatureUrl))
-    ).subscribe({
-      next: () => {
-        alert('Contract signed successfully!');
-        this.router.navigate(['/request-list']);   
-      },
-      error: err => console.error('Signature flow failed', err)
-    });
+  switchMap(sig => this.signatureService.attachSignatureToContract(this.loan.id!, sig.signatureUrl))
+).subscribe({
+  next: () => {
+    alert('Final contract signed successfully!');
+    this.router.navigate(['/request-list']);
+  },
+  error: err => console.error('Signature flow failed', err)
+});
+
   }
   loadActiveSignature() {
     this.signatureService.getMySignature().subscribe({
