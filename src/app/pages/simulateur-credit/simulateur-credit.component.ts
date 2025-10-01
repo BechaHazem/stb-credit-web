@@ -112,7 +112,7 @@ ngOnInit(): void {
       loanAmount: this.form.value.montant!,
       loanTermMonths: this.form.value.duree!,
       gracePeriodMonths: this.form.value.gracePeriod!,
-      creditTypeId: type.id                // ✅ number
+      creditTypeId: type.id
     };
 
     this.loading = true;

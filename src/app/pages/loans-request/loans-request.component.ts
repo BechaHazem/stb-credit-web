@@ -228,7 +228,7 @@ const loanRequestPayload: LoanRequest = {
   //   .filter((v: string | null) => v !== null)
   //   .join(','),
   acceptTerms: this.loanForm.value.acceptTerms,
-  simulationId: this.simulation?.id,
+  simulationId: this.simulation?.id || this.loan?.simulationId,
   step: this.mode == 'review' ? 1 : 0,
   libelle: this.mode == 'review' ? 'sign-pre-contract' : 'pending',
   customer: customerPayload, 
